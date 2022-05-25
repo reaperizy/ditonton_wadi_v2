@@ -7,42 +7,42 @@ class TvDetailResponse extends Equatable {
   const TvDetailResponse({
     required this.backdropPath,
     required this.firstAirDate,
-    required this.genres,
     required this.homepage,
-    required this.id,
     required this.name,
-    required this.numberOfEpisodes,
-    required this.numberOfSeasons,
     required this.originalLanguage,
     required this.originalName,
     required this.overview,
-    required this.popularity,
     required this.posterPath,
     required this.status,
     required this.tagline,
     required this.type,
-    required this.voteAverage,
+    required this.id,
+    required this.numberOfEpisodes,
+    required this.numberOfSeasons,
     required this.voteCount,
+    required this.popularity,
+    required this.voteAverage,
+    required this.genres,
   });
 
-  final String? backdropPath;
-  final String firstAirDate;
-  final List<GenreModel> genres;
-  final String homepage;
-  final int id;
-  final String name;
-  final int numberOfEpisodes;
-  final int numberOfSeasons;
-  final String originalLanguage;
-  final String originalName;
-  final String overview;
-  final double popularity;
-  final String posterPath;
-  final String status;
-  final String tagline;
-  final String type;
-  final double voteAverage;
-  final int voteCount;
+    final String? backdropPath;
+    final String firstAirDate;
+    final String homepage;
+    final String name;
+    final String originalLanguage;
+    final String originalName;
+    final String overview;
+    final String posterPath;
+    final String status;
+    final String tagline;
+    final String type;
+    final int id;
+    final int numberOfEpisodes;
+    final int numberOfSeasons;
+    final int voteCount;
+    final double popularity;
+    final double voteAverage;
+    final List<GenreModel> genres;
 
   factory TvDetailResponse.fromJson(Map<String, dynamic> json) =>
       TvDetailResponse(
@@ -67,7 +67,8 @@ class TvDetailResponse extends Equatable {
         voteCount: json["vote_count"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic>
+    toJson() => {
         "backdrop_path": backdropPath,
         "first_air_date": firstAirDate,
         "genres": List<dynamic>.from(genres.map((x) => x.toJson())),
@@ -88,8 +89,8 @@ class TvDetailResponse extends Equatable {
         "vote_count": voteCount,
       };
 
-  TvDetail toEntity() {
-    return TvDetail(
+  TvDetail toEntity() { return
+    TvDetail(
       backdropPath: backdropPath,
       genres: genres.map((genre) => genre.toEntity()).toList(),
       id: id,
@@ -104,7 +105,8 @@ class TvDetailResponse extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get
+    props => [
         backdropPath,
         firstAirDate,
         genres,

@@ -10,23 +10,19 @@ class WatchlistTelevisionPage extends StatefulWidget {
   const WatchlistTelevisionPage({Key? key}) : super(key: key);
 
   @override
-  _WatchlistTelevisionPageState createState() =>
-      _WatchlistTelevisionPageState();
+  WatchlistTelevisionPageState createState() => WatchlistTelevisionPageState();
 }
 
-class _WatchlistTelevisionPageState extends State<WatchlistTelevisionPage>
-    with RouteAware {
+class WatchlistTelevisionPageState extends State<WatchlistTelevisionPage>with RouteAware {
   @override
-  void initState() {
-    super.initState();
+  void initState() { super.initState();
     Future.microtask(() {
       context.read<WatchlistTvsBloc>().add(GetListEvent());
     });
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void didChangeDependencies() { super.didChangeDependencies();
     routeObserver.subscribe(this, ModalRoute.of(context)!);
   }
 
@@ -45,12 +41,11 @@ class _WatchlistTelevisionPageState extends State<WatchlistTelevisionPage>
         padding: const EdgeInsets.all(8.0),
         child: BlocBuilder<WatchlistTvsBloc, WatchlistTvsState>(
           builder: (context, state) {
-            if (state is WatchlistTvsLoading) {
-              return const Center(
+            if (state is WatchlistTvsLoading) { return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is WatchlistTvsLoaded) {
-              return ListView.builder(
+            }
+            else if (state is WatchlistTvsLoaded) { return ListView.builder(
                 itemBuilder: (context, index) {
                   final tv = state.result[index];
                   return TvCard(tv);
@@ -60,7 +55,7 @@ class _WatchlistTelevisionPageState extends State<WatchlistTelevisionPage>
             } else {
               return const Center(
                 key: Key('error_message'),
-                child: Text("Error"),
+                child: Text('Something went wrong'),
               );
             }
           },

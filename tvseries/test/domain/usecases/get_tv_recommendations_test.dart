@@ -19,12 +19,16 @@ void main() {
   final tTv = <Tv>[];
 
   test('should get list of tv recommendations from the repository', () async {
+
     // arrange
-    when(mockTvRepository.getTvRecommendations(tId))
-        .thenAnswer((_) async => Right(tTv));
+    when(mockTvRepository.getTvRecommendations(tId)).thenAnswer((_) async => Right(tTv));
+
     // act
     final result = await usecase.execute(tId);
+
     // assert
-    expect(result, Right(tTv));
+    expect(
+      result,
+      Right(tTv));
   });
 }

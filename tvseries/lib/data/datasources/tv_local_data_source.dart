@@ -23,8 +23,8 @@ class TvLocalDataSourceImpl implements TelevisionLocalDataSource {
     try {
       await databaseHelpertv.insertWatchlistTv(tv);
       return 'Added to Watchlist';
-    } catch (e) {
-      throw DatabaseException(e.toString());
+    }
+      catch (e) { throw DatabaseException(e.toString());
     }
   }
 
@@ -33,24 +33,26 @@ class TvLocalDataSourceImpl implements TelevisionLocalDataSource {
     try {
       await databaseHelpertv.removeWatchlistTv(tv);
       return 'Removed from Watchlist';
-    } catch (e) {
-      throw DatabaseException(e.toString());
+    }
+      catch (e) { throw DatabaseException(e.toString());
     }
   }
 
   @override
   Future<TvTable?> getTvById(int id) async {
     final result = await databaseHelpertv.getTvById(id);
+
     if (result != null) {
       return TvTable.fromMap(result);
-    } else {
-      return null;
+    }
+    else { return null;
     }
   }
 
   @override
   Future<List<TvTable>> getWatchlistTv() async {
     final result = await databaseHelpertv.getWatchlistTv();
+
     return result.map((data) => TvTable.fromMap(data)).toList();
   }
 }

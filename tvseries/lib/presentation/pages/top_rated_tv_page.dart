@@ -9,49 +9,46 @@ class TopRatedTelevisionPage extends StatefulWidget {
   const TopRatedTelevisionPage({Key? key}) : super(key: key);
 
   @override
-  _TopRatedTelevisionPageState createState() => _TopRatedTelevisionPageState();
+  TopRatedTelevisionPageState createState() => TopRatedTelevisionPageState();
 }
 
-class _TopRatedTelevisionPageState extends State<TopRatedTelevisionPage> {
+class TopRatedTelevisionPageState extends State<TopRatedTelevisionPage> {
   @override
-  void initState() {
-    super.initState();
+  void initState() { super.initState();
     Future.microtask(() {
       context.read<TopRatedsTvsBloc>().add(TopRatedsTvsGetEvent());
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Top Rated Tv'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<TopRatedsTvsBloc, TopRatedsTvsState>(
-          builder: (context, state) {
-            if (state is TopRatedsTvsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is TopRatedsTvsLoaded) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final tvs = state.result[index];
-                  return TvCard(tvs);
-                },
-                itemCount: state.result.length,
-              );
-            } else {
-              return const Center(
-                key: Key('error_message'),
-                child: Text("Error"),
-              );
-            }
-          },
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar( title: const Text('Top Rated Tv'),
         ),
-      ),
-    );
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BlocBuilder<TopRatedsTvsBloc, TopRatedsTvsState>(
+            builder: (context, state) {
+              if (state is TopRatedsTvsLoading) { return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              else if (state is TopRatedsTvsLoaded) { return ListView.builder(
+                  itemBuilder: (context, index) {
+                    final tvs = state.result[index];
+                    return TvCard(tvs);
+                  },
+                  itemCount: state.result.length,
+                );
+             }
+              else { return const Center(
+                  key: Key('error_message'),
+                  child: Text('Something went wrong'),
+                );
+              }
+            },
+          ),
+        ),
+      );
+    }
   }
-}

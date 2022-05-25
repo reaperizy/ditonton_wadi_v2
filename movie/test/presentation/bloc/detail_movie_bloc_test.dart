@@ -25,8 +25,7 @@ void main(){
     expect(detailsMoviesBloc.state, MoviesDetailsEmpty());
   });
 
-  blocTest<DetailsMoviesBloc, DetailsMoviesState>(
-    'should emit [Loading, Loaded] when GetDetailsMoviesEvent is added',
+  blocTest<DetailsMoviesBloc, DetailsMoviesState>('should emit [Loading, Loaded] when GetDetailsMoviesEvent is added',
     build: () {
       when(mockGetMovieDetail.execute(testMovieId)).thenAnswer((_) async => const Right(testMovieDetail));
       return detailsMoviesBloc;
@@ -41,8 +40,7 @@ void main(){
     }
   );
 
-  blocTest<DetailsMoviesBloc, DetailsMoviesState>(
-    'should emit [Loading, Error] when GetDetailsMoviesEvent is added',
+  blocTest<DetailsMoviesBloc, DetailsMoviesState>('should emit [Loading, Error] when GetDetailsMoviesEvent is added',
     build: () {
       when(mockGetMovieDetail.execute(testMovieId)).thenAnswer((_) async => const Left(ServerFailure('The Server is Failure')));
       return detailsMoviesBloc;

@@ -27,8 +27,7 @@ void main(){
     expect(movieRecommendationBloc.state, RecommendMoviesEmpty());
   });
 
-  blocTest<RecommendMoviesBloc, RecommendMoviesState>(
-    'should emit [Loading, Loaded] when PopularsMoviesGetEvent is added',
+  blocTest<RecommendMoviesBloc, RecommendMoviesState>('should emit [Loading, Loaded] when GetRecommendMoviesEvent is added',
     build: () {
       when(mockGetMovieRecommendation.execute(id)).thenAnswer((_) async => Right(testMovieList));
       return movieRecommendationBloc;
@@ -41,10 +40,9 @@ void main(){
     },
   );
 
-  blocTest<RecommendMoviesBloc, RecommendMoviesState>(
-    'Should emit [Loading, Error] when GetNowPlayingMoviesEvent is added',
+  blocTest<RecommendMoviesBloc, RecommendMoviesState>('Should emit [Loading, Error] when GetRecommendMoviesEvent is added',
     build: () {
-      when(mockGetMovieRecommendation.execute(id)).thenAnswer((_) async => Left(ServerFailure('The Server is Failure')));
+      when(mockGetMovieRecommendation.execute(id)).thenAnswer((_) async => const Left(ServerFailure('The Server is Failure')));
       return movieRecommendationBloc;
     },
     act: (bloc) => bloc.add(GetRecommendMoviesEvent(id)),

@@ -13,130 +13,149 @@ import 'package:mockito/mockito.dart';
 import '../../dummy_data/dummy_objects_tv.dart';
 import 'watchlist_tv_bloc_test.mocks.dart';
 
-@GenerateMocks([WatchlistTvsBloc,GetWatchlistTv,GetWatchListStatusTv,RemoveWatchlistTv,SaveWatchlistTv])
+@GenerateMocks([WatchlistTvsBloc, GetWatchlistTv,
+GetWatchListStatusTv, RemoveWatchlistTv, SaveWatchlistTv])
 void main() {
-  late MockGetWatchlistTv mockGetWatchlistTv;
-  late MockGetWatchListStatusTv mockGetWatchListStatus;
-  late MockSaveWatchlistTv mockSaveWatchlist;
-  late MockRemoveWatchlistTv mockRemoveWatchlist;
-  late WatchlistTvsBloc tvWatchlistBloc;
+  late MockGetWatchlistTv  mockGetWatchlistMovies;
+  late MockGetWatchListStatusTv  mockGetWatchListStatus;
+  late MockSaveWatchlistTv  mockSaveWatchlist;
+  late MockRemoveWatchlistTv  mockRemoveWatchlist;
+  late WatchlistTvsBloc  tvWatchlistBloc;
+
+  const testTvId = 1;
 
   setUp(() {
-    mockGetWatchlistTv = MockGetWatchlistTv();
+    mockGetWatchlistMovies = MockGetWatchlistTv();
     mockGetWatchListStatus = MockGetWatchListStatusTv();
     mockSaveWatchlist = MockSaveWatchlistTv();
     mockRemoveWatchlist = MockRemoveWatchlistTv();
-    tvWatchlistBloc = WatchlistTvsBloc(
-      getWatchlistTv: mockGetWatchlistTv,
-      getWatchListStatus: mockGetWatchListStatus,
-      saveWatchlist: mockSaveWatchlist,
-      removeWatchlist: mockRemoveWatchlist,
+    tvWatchlistBloc = WatchlistTvsBloc(mockSaveWatchlist,
+    mockRemoveWatchlist, mockGetWatchlistMovies, mockGetWatchListStatus
     );
   });
 
-  const tvId = 1;
-
-  test("initial state should be empty", () {
+  test('initial state in watchlist movies should be empty', (){
     expect(tvWatchlistBloc.state, WatchlistTvsEmpty());
   });
 
-  blocTest<WatchlistTvsBloc, WatchlistTvsState>(
-    'Should emit [Loading, Loaded] when data is gotten successfully',
+  blocTest<WatchlistTvsBloc, WatchlistTvsState>('Should emit [Loading, Loaded] when data is added',
     build: () {
-      when(mockGetWatchlistTv.execute())
-          .thenAnswer((_) async => Right(testWatchlistTvList));
+      when(mockGetWatchlistMovies.execute()).thenAnswer((_) async => Right(testWatchlistTvList));
       return tvWatchlistBloc;
     },
-    act: (bloc) => bloc.add(GetListEvent()),
-    expect: () =>
-    [WatchlistTvsLoading(), WatchlistTvsLoaded(testWatchlistTvList)],
+    act: (bloc) async => bloc.add(GetListEvent()),
+    expect: () => [
+      WatchlistTvsLoading(),
+      WatchlistTvsLoaded(testWatchlistTvList),],
     verify: (bloc) {
-      verify(mockGetWatchlistTv.execute());
-    },
-  );
+      verify(mockGetWatchlistMovies.execute());
 
-  blocTest<WatchlistTvsBloc, WatchlistTvsState>(
-    'Should emit [Loading, Error] when get watchlist is unsuccessful',
+      return GetListEvent().props;
+    });
+
+blocTest<WatchlistTvsBloc, WatchlistTvsState>('should emit [Loading, Error] when data is not added',
+  build: (){
+    when(mockGetWatchlistMovies.execute()).thenAnswer((_) async => const Left(ServerFailure('Server is Failure')));
+    return tvWatchlistBloc;
+  },
+  act: (bloc) async => bloc.add(GetListEvent()),
+  expect: () => [
+    WatchlistTvsLoading(), const WatchlistTvsError('Server is Failure'),
+  ],
+  verify: (bloc) {
+    verify(mockGetWatchlistMovies.execute());
+
+    return GetListEvent().props;
+  });
+
+  blocTest<WatchlistTvsBloc, WatchlistTvsState>('should emit [Loading, Loaded] when data is added',
     build: () {
-      when(mockGetWatchlistTv.execute())
-          .thenAnswer((_) async => const Left(ServerFailure("Can't get data")));
+      when(mockGetWatchListStatus.execute(testTvId)).thenAnswer((_) async => true);
       return tvWatchlistBloc;
     },
-    act: (bloc) => bloc.add(GetListEvent()),
-    expect: () =>
-    [WatchlistTvsLoading(), const WatchlistTvsError("Can't get data")],
+    act: (bloc) async => bloc.add(const GetStatusTvsEvent(testTvId)),
+    expect: () => [
+      WatchlistTvsLoading(),
+     const WatchlistTvsStatusLoaded(true),],
     verify: (bloc) {
-      verify(mockGetWatchlistTv.execute());
-    },
-  );
+      verify(mockGetWatchListStatus.execute(testTvId));
 
-  blocTest<WatchlistTvsBloc, WatchlistTvsState>(
-    'Should emit [Loaded] when get status tv watchlist is successful',
+      return const GetStatusTvsEvent(testTvId).props;
+    });
+
+  blocTest<WatchlistTvsBloc, WatchlistTvsState>('should emit [Loading, Error] when get watchlist status is not added',
     build: () {
-      when(mockGetWatchListStatus.execute(tvId))
-          .thenAnswer((_) async => true);
+      when(mockGetWatchListStatus.execute(testTvId)).thenAnswer((_) async => false);
       return tvWatchlistBloc;
     },
-    act: (bloc) => bloc.add(const GetStatusTvsEvent(tvId)),
-    expect: () => [const WatchlistTvsStatusLoaded(true)],
+    act: (bloc) => bloc.add(const GetStatusTvsEvent(testTvId)),
+    expect: () => [
+      WatchlistTvsLoading(),
+      const WatchlistTvsStatusLoaded(false),
+    ],
     verify: (bloc) {
-      verify(mockGetWatchListStatus.execute(tvId));
-    },
-  );
+      verify(mockGetWatchListStatus.execute(testTvId));
 
-  blocTest<WatchlistTvsBloc, WatchlistTvsState>(
-    'Should emit [success] when add tv item to watchlist is successful',
+      return const GetStatusTvsEvent(testTvId).props;
+    });
+
+  blocTest<WatchlistTvsBloc, WatchlistTvsState>('should emit [Loading, Loaded] when data is added',
     build: () {
-      when(mockSaveWatchlist.execute(testTvDetail))
-          .thenAnswer((_) async => const Right("Success"));
+      when(mockSaveWatchlist.execute(testTvDetail)).thenAnswer((_) async => const Right('Success'));
       return tvWatchlistBloc;
     },
     act: (bloc) => bloc.add(const AddItemTvsEvent(testTvDetail)),
-    expect: () => [const WatchlistTvsSuccess("Success")],
+    expect: () => [
+      const WatchlistTvsSuccess('Success'),
+    ],
     verify: (bloc) {
       verify(mockSaveWatchlist.execute(testTvDetail));
-    },
-  );
 
-  blocTest<WatchlistTvsBloc, WatchlistTvsState>(
-    'Should emit [success] when remove tv item to watchlist is successful',
-    build: () {
-      when(mockRemoveWatchlist.execute(testTvDetail))
-          .thenAnswer((_) async => const Right("Removed"));
-      return tvWatchlistBloc;
-    },
-    act: (bloc) => bloc.add(const RemoveItemTvsEvent(testTvDetail)),
-    expect: () => [const WatchlistTvsSuccess("Removed")],
-    verify: (bloc) {
-      verify(mockRemoveWatchlist.execute(testTvDetail));
-    },
-  );
+      return const AddItemTvsEvent(testTvDetail).props;
+    });
 
-  blocTest<WatchlistTvsBloc, WatchlistTvsState>(
-    'Should emit [error] when add tv item to watchlist is unsuccessful',
+  blocTest<WatchlistTvsBloc, WatchlistTvsState>('should emit [Loading, Error] when data is not added',
     build: () {
-      when(mockSaveWatchlist.execute(testTvDetail))
-          .thenAnswer((_) async => const Left(DatabaseFailure('Failed')));
+      when(mockSaveWatchlist.execute(testTvDetail)).thenAnswer((_) async => const Left(DatabaseFailure('add data Failed')));
       return tvWatchlistBloc;
     },
     act: (bloc) => bloc.add(const AddItemTvsEvent(testTvDetail)),
-    expect: () => [const WatchlistTvsError("Failed")],
+    expect: () => [
+      const WatchlistTvsError('add data Failed'),
+    ],
     verify: (bloc) {
       verify(mockSaveWatchlist.execute(testTvDetail));
-    },
-  );
 
-  blocTest<WatchlistTvsBloc, WatchlistTvsState>(
-    'Should emit [error] when remove tv item to watchlist is unsuccessful',
+      return const AddItemTvsEvent(testTvDetail).props;
+    });
+
+  blocTest<WatchlistTvsBloc, WatchlistTvsState>('should emit [Loading, Removed] when data is Removed',
     build: () {
-      when(mockRemoveWatchlist.execute(testTvDetail))
-          .thenAnswer((_) async => const Left(DatabaseFailure('Failed')));
+      when(mockRemoveWatchlist.execute(testTvDetail)).thenAnswer((_) async => const Right('Remove Data Success'));
       return tvWatchlistBloc;
     },
     act: (bloc) => bloc.add(const RemoveItemTvsEvent(testTvDetail)),
-    expect: () => [const WatchlistTvsError("Failed")],
+    expect: () => [
+      const WatchlistTvsSuccess('Remove Data Success'),
+    ],
     verify: (bloc) {
       verify(mockRemoveWatchlist.execute(testTvDetail));
+
+      return const RemoveItemTvsEvent(testTvDetail).props;
+    });
+
+  blocTest<WatchlistTvsBloc, WatchlistTvsState>('should emit [Loading, Error] when data is not Removed',
+    build: () {
+      when(mockRemoveWatchlist.execute(testTvDetail)).thenAnswer((_) async => const Left(DatabaseFailure('Remove Data Failed')));
+      return tvWatchlistBloc;
     },
-  );
+    act: (bloc) => bloc.add(const RemoveItemTvsEvent(testTvDetail)),
+    expect: () => [
+      const WatchlistTvsError('Remove Data Failed'),
+    ],
+    verify: (bloc) {
+      verify(mockRemoveWatchlist.execute(testTvDetail));
+
+      return const RemoveItemTvsEvent(testTvDetail).props;
+    });
 }

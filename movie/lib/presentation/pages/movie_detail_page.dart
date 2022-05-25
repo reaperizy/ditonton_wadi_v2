@@ -1,31 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
+import 'package:core/domain/entities/genre.dart';
 import 'package:core/styles/colors.dart';
 import 'package:core/styles/text_styles.dart';
-import 'package:core/domain/entities/genre.dart';
-import '../../domain/entities/movie.dart';
-import '../../domain/entities/movie_detail.dart';
-
-import 'package:movie/domain/entities/movie_detail.dart';
-import 'package:movie/presentation/bloc/detailmovie/detail_movie_bloc.dart';
-import 'package:movie/presentation/bloc/recommend_movie/reccomend_movie_bloc.dart';
-import 'package:movie/presentation/bloc/watchlist_movie/watchlist_movie_bloc.dart';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:movie/movie.dart';
+
 
 class MovieDetailPage extends StatefulWidget {
   static const routeName = '/detail';
 
   final int id;
+
   const MovieDetailPage({Key? key, required this.id}) : super(key: key);
 
   @override
-  _MovieDetailPageState createState() => _MovieDetailPageState();
+  MovieDetailPageState createState() => MovieDetailPageState();
 }
 
-class _MovieDetailPageState extends State<MovieDetailPage> {
+class MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
@@ -54,32 +48,25 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 .add(GetStatusMovieEvent(widget.id));
           }
         },
-        child: BlocBuilder<DetailsMoviesBloc, DetailsMoviesState>(
-          builder: (context, state) {
-            if (state is MoviesDetailsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is MoviesDetailsLoaded) {
-              final movie = state.movieDetail;
-              bool isAddedToWatchlist = (context
-                      .watch<WatchlistMoviesBloc>()
-                      .state is MovieWatchlistStatusLoaded)
-                  ? (context.read<WatchlistMoviesBloc>().state
-                          as MovieWatchlistStatusLoaded)
-                      .result
-                  : false;
-              return SafeArea(
-                child: DetailContent(
-                  movie,
-                  movieRecommendations is RecommendMoviesLoaded
-                      ? movieRecommendations.movies
-                      : List.empty(),
-                  isAddedToWatchlist,
+child: BlocBuilder<DetailsMoviesBloc, DetailsMoviesState>(
+  builder: (context, state) {
+     if (state is MoviesDetailsLoading) { return const Center(
+      child: CircularProgressIndicator(),
+     );
+   }
+     else if (state is MoviesDetailsLoaded) {
+       final movie = state.movieDetail;
+       bool isAddedToWatchlist = (context.watch<WatchlistMoviesBloc>().state is MovieWatchlistStatusLoaded)
+     ? (context.read<WatchlistMoviesBloc>().state as MovieWatchlistStatusLoaded).result
+     : false; return SafeArea(
+              child: DetailContent(
+               movie,
+               movieRecommendations is RecommendMoviesLoaded ? movieRecommendations.movies
+               : List.empty(), isAddedToWatchlist,
                 ),
               );
             } else {
-              return const Text("Empty");
+              return const Text("Empty data");
             }
           },
         ),
@@ -92,6 +79,7 @@ class DetailContent extends StatelessWidget {
   final MovieDetail movie;
   final List<Movie> recommendations;
   final bool isAddedWatchlist;
+
   const DetailContent(this.movie, this.recommendations, this.isAddedWatchlist,
       {Key? key})
       : super(key: key);
@@ -141,8 +129,8 @@ class DetailContent extends StatelessWidget {
                                 if (!isAddedWatchlist) {
                                   BlocProvider.of<WatchlistMoviesBloc>(context)
                                       .add(AddItemMovieEvent(movie));
-                                } else {
-                                  BlocProvider.of<WatchlistMoviesBloc>(context)
+                                }
+                                else { BlocProvider.of<WatchlistMoviesBloc>(context)
                                       .add(RemoveItemMovieEvent(movie));
                                 }
                               },
@@ -192,18 +180,13 @@ class DetailContent extends StatelessWidget {
                             BlocBuilder<RecommendMoviesBloc,
                                 RecommendMoviesState>(
                               builder: (context, state) {
-                                if (state is RecommendMoviesLoading) {
-                                  return const Center(
+                                if (state is RecommendMoviesLoading) { return const Center(
                                     child: CircularProgressIndicator(),
                                   );
-                                } else if (state is RecommendMoviesError) {
-                                  return Text(state.message);
-                                } else if (state is RecommendMoviesLoaded) {
-                                  final recommendations = state.movies;
-                                  if (recommendations.isEmpty) {
-                                    return const Text(
-                                        "No movie recommendations");
-                                  }
+                                }
+                                else if (state is RecommendMoviesError) { return Text(state.message);
+                                }
+                                else if (state is RecommendMoviesLoaded) {
                                   return SizedBox(
                                     height: 150,
                                     child: ListView.builder(
@@ -292,8 +275,7 @@ class DetailContent extends StatelessWidget {
     for (var genre in genres) {
       result += '${genre.name}, ';
     }
-    if (result.isEmpty) {
-      return result;
+    if (result.isEmpty) { return result;
     }
     return result.substring(0, result.length - 2);
   }
@@ -303,8 +285,8 @@ class DetailContent extends StatelessWidget {
     final int minutes = runtime % 60;
     if (hours > 0) {
       return '${hours}h ${minutes}m';
-    } else {
-      return '${minutes}m';
+    }
+    else { return '${minutes}m';
     }
   }
 }

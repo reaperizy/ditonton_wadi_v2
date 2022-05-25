@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
+@immutable
+// ignore: must_be_immutable
 class Movie extends Equatable {
   Movie({
     required this.adult,

@@ -25,6 +25,7 @@ class DatabaseHelperTelevision {
 
   Future<Database> _initDb() async {
     final path = await getDatabasesPath();
+
     final databasePath = '$path/ditontontvs.db';
 
     var db = await openDatabase(databasePath, version: 1, onCreate: _onCreate);
@@ -44,11 +45,13 @@ class DatabaseHelperTelevision {
 
   Future<int> insertWatchlistTv(TvTable tv) async {
     final db = await databasetlvs;
+
     return await db!.insert(_tblWatchlistTv, tv.toJson());
   }
 
   Future<int> removeWatchlistTv(TvTable tv) async {
     final db = await databasetlvs;
+
     return await db!.delete(
       _tblWatchlistTv,
       where: 'id = ?',
@@ -58,6 +61,7 @@ class DatabaseHelperTelevision {
 
   Future<Map<String, dynamic>?> getTvById(int id) async {
     final db = await databasetlvs;
+
     final results = await db!.query(
       _tblWatchlistTv,
       where: 'id = ?',
@@ -65,13 +69,14 @@ class DatabaseHelperTelevision {
     );
     if (results.isNotEmpty) {
       return results.first;
-    } else {
-      return null;
+    }
+     else { return null;
     }
   }
 
   Future<List<Map<String, dynamic>>> getWatchlistTv() async {
     final db = await databasetlvs;
+
     final List<Map<String, dynamic>> results = await db!.query(_tblWatchlistTv);
 
     return results;

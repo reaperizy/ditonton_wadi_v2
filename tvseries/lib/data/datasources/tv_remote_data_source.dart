@@ -36,8 +36,8 @@ class TvRemoteDataSourceImpl implements TelevisionRemoteDataSource {
 
     if (response.statusCode == 200) {
       return TvResponse.fromJson(json.decode(response.body)).tvList;
-    } else {
-      throw ServerException();
+    }
+     else { throw ServerException();
     }
   }
 
@@ -47,8 +47,8 @@ class TvRemoteDataSourceImpl implements TelevisionRemoteDataSource {
 
     if (response.statusCode == 200) {
       return TvDetailResponse.fromJson(json.decode(response.body));
-    } else {
-      throw ServerException();
+    }
+      else { throw ServerException();
     }
   }
 
@@ -59,8 +59,8 @@ class TvRemoteDataSourceImpl implements TelevisionRemoteDataSource {
 
     if (response.statusCode == 200) {
       return TvResponse.fromJson(json.decode(response.body)).tvList;
-    } else {
-      throw ServerException();
+    }
+     else { throw ServerException();
     }
   }
 
@@ -70,8 +70,8 @@ class TvRemoteDataSourceImpl implements TelevisionRemoteDataSource {
 
     if (response.statusCode == 200) {
       return TvResponse.fromJson(json.decode(response.body)).tvList;
-    } else {
-      throw ServerException();
+    }
+      else { throw ServerException();
     }
   }
 
@@ -82,8 +82,8 @@ class TvRemoteDataSourceImpl implements TelevisionRemoteDataSource {
 
     if (response.statusCode == 200) {
       return TvResponse.fromJson(json.decode(response.body)).tvList;
-    } else {
-      throw ServerException();
+    }
+      else { throw ServerException();
     }
   }
 
@@ -94,8 +94,8 @@ class TvRemoteDataSourceImpl implements TelevisionRemoteDataSource {
 
     if (response.statusCode == 200) {
       return TvResponse.fromJson(json.decode(response.body)).tvList;
-    } else {
-      throw ServerException();
+    }
+      else { throw ServerException();
     }
   }
 }

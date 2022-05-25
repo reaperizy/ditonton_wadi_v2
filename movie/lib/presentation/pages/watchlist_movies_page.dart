@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'package:core/common/utils.dart';
 import 'package:core/presentation/widgets/movie_card_list.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:movie/presentation/bloc/watchlist_movie/watchlist_movie_bloc.dart';
 
 class WatchlistMoviesPage extends StatefulWidget {
@@ -12,10 +10,10 @@ class WatchlistMoviesPage extends StatefulWidget {
   const WatchlistMoviesPage({Key? key}) : super(key: key);
 
   @override
-  _WatchlistMoviesPageState createState() => _WatchlistMoviesPageState();
+  WatchlistMoviesPageState createState() => WatchlistMoviesPageState();
 }
 
-class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
+class WatchlistMoviesPageState extends State<WatchlistMoviesPage>
     with RouteAware {
   @override
   void initState() {
@@ -46,11 +44,11 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
         padding: const EdgeInsets.all(8.0),
         child: BlocBuilder<WatchlistMoviesBloc, WatchlistMoviesState>(
           builder: (context, state) {
-            if (state is WatchlistMoviesLoading) {
-              return const Center(
+            if (state is WatchlistMoviesLoading) { return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is WatchlistMoviesLoaded) {
+            }
+            else if (state is WatchlistMoviesLoaded) {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final movie = state.result[index];
@@ -58,10 +56,10 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                 },
                 itemCount: state.result.length,
               );
-            } else {
-              return const Center(
+            }
+            else { return const Center(
                 key: Key('error_message'),
-                child: Text("Error"),
+                child: Text('Something went wrong'),
               );
             }
           },

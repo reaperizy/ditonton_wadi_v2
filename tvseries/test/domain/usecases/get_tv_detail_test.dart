@@ -19,11 +19,14 @@ void main() {
 
   test('should get tv detail from the repository', () async {
     // arrange
-    when(mockMovieRepository.getTvDetail(tId))
-        .thenAnswer((_) async => const Right(testTvDetail));
+    when(mockMovieRepository.getTvDetail(tId)).thenAnswer((_) async => const Right(testTvDetail));
+
     // act
     final result = await usecase.execute(tId);
+
     // assert
-    expect(result, const Right(testTvDetail));
+    expect(
+      result,
+      const Right(testTvDetail));
   });
 }

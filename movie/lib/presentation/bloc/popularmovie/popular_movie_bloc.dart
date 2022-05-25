@@ -28,7 +28,9 @@ class PopularsMoviesBloc
             emit(PopularsMoviesError(failure.message));
           },
           (data) {
-            data.isEmpty ? emit(PopularsMoviesEmpty()) : emit(PopularsMoviesLoaded(data));
+            data.isEmpty
+            ? emit(PopularsMoviesEmpty())
+            : emit(PopularsMoviesLoaded(data));
           },
         );
       }

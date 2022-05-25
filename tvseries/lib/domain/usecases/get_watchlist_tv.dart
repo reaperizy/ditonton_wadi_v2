@@ -5,11 +5,11 @@ import '../entities/tv.dart';
 import '../repositories/tv_repository.dart';
 
 class GetWatchlistTv {
-  final TvRepository _repository;
+    final TvRepository _repository;
+    GetWatchlistTv(this._repository);
 
-  GetWatchlistTv(this._repository);
+    Future<Either<Failure, List<Tv>>> execute() {
 
-  Future<Either<Failure, List<Tv>>> execute() {
-    return _repository.getWatchlistTv();
-  }
+      return _repository.getWatchlistTv();
+    }
 }

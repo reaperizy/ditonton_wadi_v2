@@ -4,32 +4,33 @@ import '../../../domain/entities/tv.dart';
 
 class TvModel extends Equatable {
   const TvModel({
-    required this.backdropPath,
-    required this.genreIds,
-    required this.id,
-    required this.originalName,
-    required this.overview,
-    required this.popularity,
-    required this.posterPath,
-    required this.firstAirDate,
-    required this.name,
-    required this.voteAverage,
-    required this.voteCount,
+      required this.backdropPath,
+      required this.posterPath,
+      required this.firstAirDate,
+      required this.originalName,
+      required this.overview,
+      required this.name,
+      required this.popularity,
+      required this.voteAverage,
+      required this.voteCount,
+      required this.id,
+      required this.genreIds,
   });
 
-  final String? backdropPath;
-  final List<int> genreIds;
-  final int id;
-  final String originalName;
-  final String overview;
-  final double popularity;
-  final String? posterPath;
-  final String? firstAirDate;
-  final String name;
-  final double voteAverage;
-  final int voteCount;
+    final String? backdropPath;
+    final String? posterPath;
+    final String? firstAirDate;
+    final String originalName;
+    final String overview;
+    final String name;
+    final double popularity;
+    final double voteAverage;
+    final int voteCount;
+    final int id;
+    final List<int> genreIds;
 
-  factory TvModel.fromJson(Map<String, dynamic> json) => TvModel(
+  factory TvModel.fromJson(Map<String, dynamic> json) =>
+    TvModel(
         backdropPath: json["backdrop_path"],
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
@@ -43,7 +44,8 @@ class TvModel extends Equatable {
         voteCount: json["vote_count"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic>
+     toJson() => {
         "backdrop_path": backdropPath,
         "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
         "id": id,
@@ -57,8 +59,8 @@ class TvModel extends Equatable {
         "vote_count": voteCount,
       };
 
-  Tv toEntity() {
-    return Tv(
+  Tv toEntity() { return
+    Tv(
       backdropPath: backdropPath,
       genreIds: genreIds,
       id: id,
@@ -74,7 +76,8 @@ class TvModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?>
+    get props => [
         backdropPath,
         genreIds,
         id,

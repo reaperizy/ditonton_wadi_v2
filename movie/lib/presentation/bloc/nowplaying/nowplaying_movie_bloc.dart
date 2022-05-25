@@ -28,7 +28,9 @@ class NowPlayingsMoviesBloc
             emit(NowPlayingsMoviesError(failure.message));
           },
           (data) {
-            data.isEmpty ? emit(NowPlayingsMoviesEmpty()) : emit(NowPlayingsMoviesLoaded(data));
+            data.isEmpty
+            ? emit(NowPlayingsMoviesEmpty())
+            : emit(NowPlayingsMoviesLoaded(data));
           },
         );
       }

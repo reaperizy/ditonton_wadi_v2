@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:core/utils/failure.dart';
 
 import 'package:movie/domain/usecases/get_top_rated_movies.dart';
-import 'package:movie/presentation/bloc/popularmovie/popular_movie_bloc.dart';
 import 'package:movie/presentation/bloc/toprated_movie/toprated_movie_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -26,8 +25,7 @@ void main(){
     expect(movieTopRatedBloc.state, TopRatedsMoviesEmpty());
   });
 
-  blocTest<TopRatedsMoviesBloc, TopRatedsMoviesState>(
-    'should emit [Loading, Loaded] when PopularsMoviesGetEvent is added',
+  blocTest<TopRatedsMoviesBloc, TopRatedsMoviesState>('should emit [Loading, Loaded] when TopRatedsMoviesGetEvent is added',
     build: () {
       when(mockGetTopRatedMovies.execute()).thenAnswer((_) async => Right(testMovieList));
       return movieTopRatedBloc;
@@ -40,17 +38,15 @@ void main(){
     },
   );
 
-  blocTest<TopRatedsMoviesBloc, TopRatedsMoviesState>(
-    'Should emit [Loading, Error] when GetNowPlayingMoviesEvent is added',
+  blocTest<TopRatedsMoviesBloc, TopRatedsMoviesState>('Should emit [Loading, Error] when TopRatedsMoviesGetEvent is added',
     build: () {
-      when(mockGetTopRatedMovies.execute()).thenAnswer((_) async => Left(ServerFailure('The Server is Failure')));
+      when(mockGetTopRatedMovies.execute()).thenAnswer((_) async => const Left(ServerFailure('The Server is Failure')));
       return movieTopRatedBloc;
     },
     act: (bloc) => bloc.add(TopRatedsMoviesGetEvent()),
-    expect: () => [PopularsMoviesLoading(), PopularsMoviesError('The Server is Failure')],
+    expect: () => [TopRatedsMoviesLoading(), TopRatedsMoviesError('The Server is Failure')],
     verify: (bloc) {
       verify(mockGetTopRatedMovies.execute());
-      return movieTopRatedBloc.state.props;
     },
   );
 }

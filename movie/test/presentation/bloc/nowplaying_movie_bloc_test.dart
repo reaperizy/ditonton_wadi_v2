@@ -1,7 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:core/utils/failure.dart';
-import 'package:movie/domain/entities/movie.dart';
 import 'package:movie/domain/usecases/get_now_playing_movies.dart';
 import 'package:movie/presentation/bloc/nowplaying/nowplaying_movie_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -25,8 +24,7 @@ void main(){
     expect(nowPlayingsMoviesBloc.state, NowPlayingsMoviesEmpty());
   });
 
-  blocTest<NowPlayingsMoviesBloc, NowPlayingsMoviesState>(
-    'should emit [Loading, Loaded] when GetNowPlayingMoviesEvent is added',
+  blocTest<NowPlayingsMoviesBloc, NowPlayingsMoviesState>('should emit [Loading, Loaded] when NowPlayingsMoviesGetEvent is added',
     build: () {
       when(mockGetNowPlayingMovies.execute()).thenAnswer((_) async => Right(testMovieList));
       return nowPlayingsMoviesBloc;
@@ -39,10 +37,9 @@ void main(){
     },
   );
 
-  blocTest<NowPlayingsMoviesBloc, NowPlayingsMoviesState>(
-    'Should emit [Loading, Error] when GetNowPlayingMoviesEvent is added',
+  blocTest<NowPlayingsMoviesBloc, NowPlayingsMoviesState>('Should emit [Loading, Error] when NowPlayingsMoviesGetEvent is added',
     build: () {
-      when(mockGetNowPlayingMovies.execute()).thenAnswer((_) async => Left(ServerFailure('The Server is Failure')));
+      when(mockGetNowPlayingMovies.execute()).thenAnswer((_) async => const Left(ServerFailure('The Server is Failure')));
       return nowPlayingsMoviesBloc;
     },
     act: (bloc) => bloc.add(NowPlayingsMoviesGetEvent()),

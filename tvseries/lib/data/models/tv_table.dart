@@ -4,46 +4,54 @@ import '../../../domain/entities/tv.dart';
 import '../../../domain/entities/tv_detail.dart';
 
 class TvTable extends Equatable {
-  final int id;
   final String? name;
   final String? posterPath;
   final String? overview;
+  final int id;
 
   const TvTable({
-    required this.id,
     required this.name,
     required this.posterPath,
     required this.overview,
+    required this.id,
   });
 
-  factory TvTable.fromEntity(TvDetail tv) => TvTable(
-        id: tv.id,
+  factory TvTable.fromEntity(TvDetail tv) =>
+    TvTable(
         name: tv.name,
         posterPath: tv.posterPath,
         overview: tv.overview,
+        id: tv.id,
       );
 
-  factory TvTable.fromMap(Map<String, dynamic> map) => TvTable(
-        id: map['id'],
+  factory TvTable.fromMap(Map<String, dynamic> map) =>
+    TvTable(
         name: map['name'],
         posterPath: map['posterPath'],
         overview: map['overview'],
+        id: map['id'],
       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
+  Map<String, dynamic>
+    toJson() => {
         'name': name,
         'posterPath': posterPath,
         'overview': overview,
+        'id': id,
       };
 
-  Tv toEntity() => Tv.watchlist(
-        id: id,
+  Tv toEntity() =>
+    Tv.watchlist(
         overview: overview,
         posterPath: posterPath,
         name: name,
+        id: id,
       );
 
   @override
-  List<Object?> get props => [id, name, posterPath, overview];
+  List<Object?> get props => [
+    name,
+    posterPath,
+    overview,
+    id];
 }

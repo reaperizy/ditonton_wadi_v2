@@ -2,17 +2,14 @@
 // in tvseries/test/presentation/bloc/recommend_tv_bloc_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i6;
+import 'dart:async' as _i5;
 
-import 'package:bloc/bloc.dart' as _i7;
-import 'package:core/utils/failure.dart' as _i8;
-import 'package:dartz/dartz.dart' as _i5;
+import 'package:core/utils/failure.dart' as _i6;
+import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tvseries/domain/entities/tv.dart' as _i9;
-import 'package:tvseries/domain/repositories/tv_repository.dart' as _i4;
-import 'package:tvseries/domain/usecases/get_tv_recommendations.dart' as _i2;
-import 'package:tvseries/presentation/bloc/recommend_tv/reccomend_tv_bloc.dart'
-    as _i3;
+import 'package:tvseries/domain/entities/tv.dart' as _i7;
+import 'package:tvseries/domain/repositories/tv_repository.dart' as _i2;
+import 'package:tvseries/domain/usecases/get_tv_recommendations.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -24,101 +21,27 @@ import 'package:tvseries/presentation/bloc/recommend_tv/reccomend_tv_bloc.dart'
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeGetTvRecommendations_0 extends _i1.Fake
-    implements _i2.GetTvRecommendations {}
+class _FakeTvRepository_0 extends _i1.Fake implements _i2.TvRepository {}
 
-class _FakeRecommendTvsState_1 extends _i1.Fake
-    implements _i3.RecommendTvsState {}
-
-class _FakeTvRepository_2 extends _i1.Fake implements _i4.TvRepository {}
-
-class _FakeEither_3<L, R> extends _i1.Fake implements _i5.Either<L, R> {}
-
-/// A class which mocks [RecommendTvsBloc].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockRecommendTvsBloc extends _i1.Mock implements _i3.RecommendTvsBloc {
-  MockRecommendTvsBloc() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.GetTvRecommendations get getTvRecommendations => (super.noSuchMethod(
-      Invocation.getter(#getTvRecommendations),
-      returnValue: _FakeGetTvRecommendations_0()) as _i2.GetTvRecommendations);
-  @override
-  _i3.RecommendTvsState get state =>
-      (super.noSuchMethod(Invocation.getter(#state),
-          returnValue: _FakeRecommendTvsState_1()) as _i3.RecommendTvsState);
-  @override
-  _i6.Stream<_i3.RecommendTvsState> get stream =>
-      (super.noSuchMethod(Invocation.getter(#stream),
-              returnValue: Stream<_i3.RecommendTvsState>.empty())
-          as _i6.Stream<_i3.RecommendTvsState>);
-  @override
-  bool get isClosed =>
-      (super.noSuchMethod(Invocation.getter(#isClosed), returnValue: false)
-          as bool);
-  @override
-  void add(_i3.RecommendTvsEvent? event) =>
-      super.noSuchMethod(Invocation.method(#add, [event]),
-          returnValueForMissingStub: null);
-  @override
-  void onEvent(_i3.RecommendTvsEvent? event) =>
-      super.noSuchMethod(Invocation.method(#onEvent, [event]),
-          returnValueForMissingStub: null);
-  @override
-  void emit(_i3.RecommendTvsState? state) =>
-      super.noSuchMethod(Invocation.method(#emit, [state]),
-          returnValueForMissingStub: null);
-  @override
-  void on<E extends _i3.RecommendTvsEvent>(
-          _i7.EventHandler<E, _i3.RecommendTvsState>? handler,
-          {_i7.EventTransformer<E>? transformer}) =>
-      super.noSuchMethod(
-          Invocation.method(#on, [handler], {#transformer: transformer}),
-          returnValueForMissingStub: null);
-  @override
-  void onTransition(
-          _i7.Transition<_i3.RecommendTvsEvent, _i3.RecommendTvsState>?
-              transition) =>
-      super.noSuchMethod(Invocation.method(#onTransition, [transition]),
-          returnValueForMissingStub: null);
-  @override
-  _i6.Future<void> close() => (super.noSuchMethod(Invocation.method(#close, []),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
-  @override
-  void onChange(_i7.Change<_i3.RecommendTvsState>? change) =>
-      super.noSuchMethod(Invocation.method(#onChange, [change]),
-          returnValueForMissingStub: null);
-  @override
-  void addError(Object? error, [StackTrace? stackTrace]) =>
-      super.noSuchMethod(Invocation.method(#addError, [error, stackTrace]),
-          returnValueForMissingStub: null);
-  @override
-  void onError(Object? error, StackTrace? stackTrace) =>
-      super.noSuchMethod(Invocation.method(#onError, [error, stackTrace]),
-          returnValueForMissingStub: null);
-}
+class _FakeEither_1<L, R> extends _i1.Fake implements _i3.Either<L, R> {}
 
 /// A class which mocks [GetTvRecommendations].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetTvRecommendations extends _i1.Mock
-    implements _i2.GetTvRecommendations {
+    implements _i4.GetTvRecommendations {
   MockGetTvRecommendations() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.TvRepository get repository =>
+  _i2.TvRepository get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-          returnValue: _FakeTvRepository_2()) as _i4.TvRepository);
+          returnValue: _FakeTvRepository_0()) as _i2.TvRepository);
   @override
-  _i6.Future<_i5.Either<_i8.Failure, List<_i9.Tv>>> execute(dynamic id) =>
+  _i5.Future<_i3.Either<_i6.Failure, List<_i7.Tv>>> execute(dynamic id) =>
       (super.noSuchMethod(Invocation.method(#execute, [id]),
-              returnValue: Future<_i5.Either<_i8.Failure, List<_i9.Tv>>>.value(
-                  _FakeEither_3<_i8.Failure, List<_i9.Tv>>()))
-          as _i6.Future<_i5.Either<_i8.Failure, List<_i9.Tv>>>);
+              returnValue: Future<_i3.Either<_i6.Failure, List<_i7.Tv>>>.value(
+                  _FakeEither_1<_i6.Failure, List<_i7.Tv>>()))
+          as _i5.Future<_i3.Either<_i6.Failure, List<_i7.Tv>>>);
 }

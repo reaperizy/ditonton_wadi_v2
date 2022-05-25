@@ -25,12 +25,12 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       final result = await remoteDataSource.getNowPlayingMovies();
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('The Certificate is unvalid'));
     }
   }
 
@@ -39,12 +39,12 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       final result = await remoteDataSource.getMovieDetail(id);
       return Right(result.toEntity());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('The Certificate is unvalid'));
     }
   }
 
@@ -53,12 +53,12 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       final result = await remoteDataSource.getMovieRecommendations(id);
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('The Certificate is unvalid'));
     }
   }
 
@@ -67,12 +67,12 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       final result = await remoteDataSource.getPopularMovies();
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('The Certificate is unvalid'));
     }
   }
 
@@ -81,12 +81,12 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       final result = await remoteDataSource.getTopRatedMovies();
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('The Certificate is unvalid'));
     }
   }
 
@@ -95,12 +95,12 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       final result = await remoteDataSource.searchMovies(query);
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('The Certificate is unvalid'));
     }
   }
 
@@ -110,33 +110,33 @@ class MovieRepositoryImpl implements MovieRepository {
       final result =
           await localDataSource.insertWatchlist(MovieTable.fromEntity(movie));
       return Right(result);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
-    } catch (e) {
-      rethrow;
+    }
+    on DatabaseException catch (e) { return Left(DatabaseFailure(e.message));
+    } catch (e) { rethrow;
     }
   }
 
   @override
   Future<Either<Failure, String>> removeWatchlist(MovieDetail movie) async {
     try {
-      final result =
-          await localDataSource.removeWatchlist(MovieTable.fromEntity(movie));
+      final result = await localDataSource.removeWatchlist(MovieTable.fromEntity(movie));
       return Right(result);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
+    }
+    on DatabaseException catch (e) { return Left(DatabaseFailure(e.message));
     }
   }
 
   @override
   Future<bool> isAddedToWatchlist(int id) async {
     final result = await localDataSource.getMovieById(id);
+
     return result != null;
   }
 
   @override
   Future<Either<Failure, List<Movie>>> getWatchlistMovies() async {
     final result = await localDataSource.getWatchlistMovies();
+
     return Right(result.map((data) => data.toEntity()).toList());
   }
 }

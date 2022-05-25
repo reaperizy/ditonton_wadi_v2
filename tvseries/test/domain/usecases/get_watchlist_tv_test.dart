@@ -16,12 +16,16 @@ void main() {
   });
 
   test('should get list of tv from the repository', () async {
+
     // arrange
-    when(mockTvRepository.getWatchlistTv())
-        .thenAnswer((_) async => Right(testTvList));
+    when(mockTvRepository.getWatchlistTv()).thenAnswer((_) async => Right(testTvList));
+
     // act
     final result = await usecase.execute();
+
     // assert
-    expect(result, Right(testTvList));
+    expect(
+      result,
+      Right(testTvList));
   });
 }

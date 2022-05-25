@@ -1,15 +1,14 @@
 import 'package:dartz/dartz.dart';
 
 import '../entities/movie.dart';
-import '../repositories/movie_repository.dart';
 import 'package:core/utils/failure.dart';
+import '../repositories/movie_repository.dart';
 
 class GetTopRatedMovies {
-  final MovieRepository repository;
+    final MovieRepository repository;
+    GetTopRatedMovies(this.repository);
 
-  GetTopRatedMovies(this.repository);
-
-  Future<Either<Failure, List<Movie>>> execute() {
-    return repository.getTopRatedMovies();
-  }
+    Future<Either<Failure, List<Movie>>> execute() {
+      return repository.getTopRatedMovies();
+    }
 }

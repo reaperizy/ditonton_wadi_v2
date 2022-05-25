@@ -1,62 +1,55 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:core/utils/failure.dart';
-import 'package:tvseries/domain/entities/tv.dart';
 import 'package:tvseries/domain/usecases/get_now_playing_tv.dart';
 import 'package:tvseries/presentation/bloc/onair_tv/onair_tv_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../dummy_data/dummy_objects_tv.dart';
 import 'onair_tv_bloc_test.mocks.dart';
 
-@GenerateMocks([OnAirsTvsBloc,GetNowPlayingTv])
-void main() {
-  late MockGetNowPlayingTv mockGetNowPlayingTv;
-  late OnAirsTvsBloc tvOnAirBloc;
+@GenerateMocks([GetNowPlayingTv])
 
-  setUp(() {
-    mockGetNowPlayingTv = MockGetNowPlayingTv();
-    tvOnAirBloc = OnAirsTvsBloc(mockGetNowPlayingTv);
+void main(){
+  late OnAirsTvsBloc  tvOnAirBloc;
+  late MockGetNowPlayingTv  mockGetNowPlayingTv;
+
+  setUp((){
+    mockGetNowPlayingTv  = MockGetNowPlayingTv();
+    tvOnAirBloc  = OnAirsTvsBloc(mockGetNowPlayingTv);
   });
 
-  final tvList = <Tv>[];
-
-  test("initial state should be empty", () {
+  test('the initial state should be OnAirsTvsEmpty', (){
     expect(tvOnAirBloc.state, OnAirsTvsEmpty());
   });
 
-  group('On Air Tv BLoC Test', () {
-    blocTest<OnAirsTvsBloc, OnAirsTvsState>(
-      'Should emit [Loading, Loaded] when data is gotten successfully',
-      build: () {
-        when(mockGetNowPlayingTv.execute())
-            .thenAnswer((_) async => Right(tvList));
-        return tvOnAirBloc;
-      },
-      act: (bloc) => bloc.add(OnAirsTvsGetEvent()),
-      expect: () => [OnAirsTvsLoading(), OnAirsTvsLoaded(tvList)],
-      verify: (bloc) {
-        verify(mockGetNowPlayingTv.execute());
-      },
-    );
+  blocTest<OnAirsTvsBloc, OnAirsTvsState>('should emit [Loading, Loaded] when OnAirsTvsGetEvent is added',
+    build: () {
+      when(mockGetNowPlayingTv.execute()).thenAnswer((_) async => Right(testTvList));
+      return tvOnAirBloc;
+    },
+    act: (bloc) => bloc.add(OnAirsTvsGetEvent()),
+    expect: () => [OnAirsTvsLoading(), OnAirsTvsLoaded(testTvList)],
+    verify: (bloc) {
+      verify(mockGetNowPlayingTv.execute());
 
-    blocTest<OnAirsTvsBloc, OnAirsTvsState>(
-      'Should emit [Loading, Error] when get now playing is unsuccessful',
-      build: () {
-        when(mockGetNowPlayingTv.execute())
-            .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));
-        return tvOnAirBloc;
-      },
-      act: (bloc) => bloc.add(OnAirsTvsGetEvent()),
-      expect: () => [
-        OnAirsTvsLoading(),
-        const OnAirsTvsError('Server Failure')
-      ],
-      verify: (bloc) {
-        verify(mockGetNowPlayingTv.execute());
-      },
-    );
-  },
+      return tvOnAirBloc.state.props;
+    },
+  );
+
+  blocTest<OnAirsTvsBloc, OnAirsTvsState>('Should emit [Loading, Error] when OnAirsTvsGetEvent is added',
+    build: () {
+      when(mockGetNowPlayingTv.execute()).thenAnswer((_) async => const Left(ServerFailure('The Server is Failure')));
+      return tvOnAirBloc;
+    },
+    act: (bloc) => bloc.add(OnAirsTvsGetEvent()),
+    expect: () => [OnAirsTvsLoading(), OnAirsTvsError('The Server is Failure')],
+    verify: (bloc) {
+      verify(mockGetNowPlayingTv.execute());
+
+      return tvOnAirBloc.state.props;
+    },
   );
 }

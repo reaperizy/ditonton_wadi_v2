@@ -10,22 +10,22 @@ import 'package:tvseries/domain/usecases/save_watchlist_tv.dart';
 part 'watchlist_tv_event.dart';
 
 part 'watchlist_tv_state.dart';
+class WatchlistTvsBloc  extends Bloc<WatchlistTvsEvent, WatchlistTvsState>{
+  static const watchlistRemoveSuccessMessage
+        = 'Successfully removed from watchlist';
+  static const watchlistAddSuccessMessage
+        = 'Successfully added to watchlist';
+  final SaveWatchlistTv  saveWatchlist;
+  final RemoveWatchlistTv  removeWatchlist;
+  final GetWatchlistTv  getWatchlistTv;
+  final GetWatchListStatusTv  getWatchListStatus;
 
-class WatchlistTvsBloc extends Bloc<WatchlistTvsEvent, WatchlistTvsState> {
-  static const watchlistAddSuccessMessage = 'Added to Watchlist';
-  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
-
-  final GetWatchlistTv getWatchlistTv;
-  final GetWatchListStatusTv getWatchListStatus;
-  final SaveWatchlistTv saveWatchlist;
-  final RemoveWatchlistTv removeWatchlist;
-
-  WatchlistTvsBloc({
-    required this.getWatchlistTv,
-    required this.getWatchListStatus,
-    required this.saveWatchlist,
-    required this.removeWatchlist,
-  }) : super(WatchlistTvsEmpty()) {
+  WatchlistTvsBloc(
+    this.saveWatchlist,
+    this.removeWatchlist,
+    this.getWatchlistTv,
+    this.getWatchListStatus
+  ) : super(WatchlistTvsEmpty()) {
     on<GetListEvent>((event, emit) async {
       emit(WatchlistTvsLoading());
       final result = await getWatchlistTv.execute();
@@ -34,42 +34,38 @@ class WatchlistTvsBloc extends Bloc<WatchlistTvsEvent, WatchlistTvsState> {
           emit(WatchlistTvsError(failure.message));
         },
         (data) {
-          emit(WatchlistTvsLoaded(data));
-        },
+          data.isEmpty
+          ? emit(WatchlistTvsEmpty())
+          : emit(WatchlistTvsLoaded(data));
+        }
       );
     });
-
     on<GetStatusTvsEvent>((event, emit) async {
-      final id = event.id;
-      final result = await getWatchListStatus.execute(id);
-
-      emit(WatchlistTvsStatusLoaded(result));
+      emit(WatchlistTvsLoading());
+      final result = await getWatchListStatus.execute(event.id);
+      emit(WatchlistTvsStatusLoaded (result));
     });
-
     on<AddItemTvsEvent>((event, emit) async {
       final tvDetail = event.tvDetail;
       final result = await saveWatchlist.execute(tvDetail);
-
       result.fold(
-        (failure) {
+        (failure){
           emit(WatchlistTvsError(failure.message));
         },
-        (successMessage) {
-          emit(WatchlistTvsSuccess(successMessage));
+        (successMessage){
+          emit(WatchlistTvsSuccess (successMessage));
         },
       );
     });
-
     on<RemoveItemTvsEvent>((event, emit) async {
       final tvDetail = event.tvDetail;
       final result = await removeWatchlist.execute(tvDetail);
-
       result.fold(
-        (failure) {
+        (failure){
           emit(WatchlistTvsError(failure.message));
         },
-        (successMessage) {
-          emit(WatchlistTvsSuccess(successMessage));
+        (successMessage){
+          emit(WatchlistTvsSuccess (successMessage));
         },
       );
     });

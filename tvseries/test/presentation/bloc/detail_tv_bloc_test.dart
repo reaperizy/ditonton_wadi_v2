@@ -10,48 +10,50 @@ import 'package:mockito/mockito.dart';
 import '../../dummy_data/dummy_objects_tv.dart';
 import 'detail_tv_bloc_test.mocks.dart';
 
-@GenerateMocks([GetTvDetail, DetailsTvsBloc])
-void main() {
-  late MockGetTvDetail mockGetTvDetail;
+@GenerateMocks([GetTvDetail])
+void main(){
   late DetailsTvsBloc tvDetailBloc;
-  setUp(() {
-    mockGetTvDetail = MockGetTvDetail();
-    tvDetailBloc = DetailsTvsBloc(getTvDetail: mockGetTvDetail);
+  late MockGetTvDetail  mockGetTvDetail;
+  const testTvId = 1;
+
+  setUp((){
+    mockGetTvDetail  = MockGetTvDetail();
+    tvDetailBloc = DetailsTvsBloc(
+      getTvDetail: mockGetTvDetail);
   });
 
-  const tvId = 1;
-
-  test("initial state should be empty", () {
+  test('the initial state should be MoviesDetailsEmpty', (){
     expect(tvDetailBloc.state, DetailsTvsEmpty());
   });
 
-  group('Top Rated Movies BLoC Test', () {
-    blocTest<DetailsTvsBloc, DetailsTvsState>(
-      'Should emit [Loading, Loaded] when data is gotten successfully',
-      build: () {
-        when(mockGetTvDetail.execute(tvId))
-            .thenAnswer((_) async => const Right(testTvDetail));
-        return tvDetailBloc;
-      },
-      act: (bloc) => bloc.add(const GetDetailsTvsEvent(tvId)),
-      expect: () => [DetailsTvsLoading(), const DetailTvsLoaded(testTvDetail)],
-      verify: (bloc) {
-        verify(mockGetTvDetail.execute(tvId));
-      },
-    );
+  blocTest<DetailsTvsBloc, DetailsTvsState>('should emit [Loading, Loaded] when GetDetailsTvsEvent is added',
+    build: () {
+      when(mockGetTvDetail.execute(testTvId)).thenAnswer((_) async => const Right(testTvDetail));
+      return tvDetailBloc;
+    },
+    act: (bloc) {
+      bloc.add(GetDetailsTvsEvent(testTvId));
+    }, expect: () { return [DetailsTvsLoading(),
+      DetailTvsLoaded(testTvDetail)
+    ];}, verify: (bloc) {
+      verify(mockGetTvDetail.execute(testTvId));
+      return tvDetailBloc.state.props;
+    }
+  );
 
-    blocTest<DetailsTvsBloc, DetailsTvsState>(
-      'Should emit [Loading, Error] when get detail is unsuccessful',
-      build: () {
-        when(mockGetTvDetail.execute(tvId))
-            .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));
-        return tvDetailBloc;
-      },
-      act: (bloc) => bloc.add(const GetDetailsTvsEvent(tvId)),
-      expect: () => [DetailsTvsLoading(), const DetailsTvsError('Server Failure')],
-      verify: (bloc) {
-        verify(mockGetTvDetail.execute(tvId));
-      },
-    );
-  },);
+  blocTest<DetailsTvsBloc, DetailsTvsState>('should emit [Loading, Error] when GetDetailsMoviesEvent is added',
+    build: () {
+      when(mockGetTvDetail.execute(testTvId)).thenAnswer((_) async => const Left(ServerFailure('The Server is Failure')));
+      return tvDetailBloc;
+    },
+    act: (bloc) {
+      bloc.add(GetDetailsTvsEvent(testTvId));
+    }, expect: () { return [DetailsTvsLoading(),
+      DetailsTvsError('The Server is Failure')
+    ];}, verify: (bloc) {
+      verify(mockGetTvDetail.execute(testTvId));
+
+      return tvDetailBloc.state.props;
+    }
+  );
 }

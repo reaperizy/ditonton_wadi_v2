@@ -20,16 +20,18 @@ class TelevisionDetailPage extends StatefulWidget {
   const TelevisionDetailPage({Key? key, required this.id}) : super(key: key);
 
   @override
-  _TelevisionDetailPageState createState() => _TelevisionDetailPageState();
+  TelevisionDetailPageState createState() => TelevisionDetailPageState();
 }
 
-class _TelevisionDetailPageState extends State<TelevisionDetailPage> {
+class TelevisionDetailPageState extends State<TelevisionDetailPage> {
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       context.read<DetailsTvsBloc>().add(GetDetailsTvsEvent(widget.id));
+
       context.read<RecommendTvsBloc>().add(GetRecommendTvsEvent(widget.id));
+
       context.read<WatchlistTvsBloc>().add(GetStatusTvsEvent(widget.id));
     });
   }
@@ -54,26 +56,21 @@ class _TelevisionDetailPageState extends State<TelevisionDetailPage> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is DetailTvsLoaded) {
+            }
+            else if (state is DetailTvsLoaded) {
               final tv = state.tvDetail;
               bool isAddedToWatchlistTv = (context
-                      .watch<WatchlistTvsBloc>()
-                      .state is WatchlistTvsStatusLoaded)
-                  ? (context.read<WatchlistTvsBloc>().state
-                          as WatchlistTvsStatusLoaded)
-                      .result
-                  : false;
-              return SafeArea(
-                child: DetailContent(
-                  tv,
+                      .watch<WatchlistTvsBloc>().state is WatchlistTvsStatusLoaded)
+                  ? (context.read<WatchlistTvsBloc>().state as WatchlistTvsStatusLoaded).result
+                  : false; return SafeArea(
+                child: DetailContent(tv,
                   tvRecommendations is RecommendTvsLoaded
-                      ? tvRecommendations.tv
-                      : List.empty(),
+                      ? tvRecommendations.tv : List.empty(),
                   isAddedToWatchlistTv,
                 ),
               );
-            } else {
-              return const Text("Empty");
+            }
+            else { return const Text("The Reccomendantion Television is not available");
             }
           },
         ),
@@ -133,20 +130,18 @@ class DetailContent extends StatelessWidget {
                             ),
                             ElevatedButton(
                               onPressed: () async {
-                                if (!isAddedWatchlistTv) {
-                                  BlocProvider.of<WatchlistTvsBloc>(context)
-                                      .add(AddItemTvsEvent(tv));
-                                } else {
-                                  BlocProvider.of<WatchlistTvsBloc>(context)
-                                      .add(RemoveItemTvsEvent(tv));
+                                if (!isAddedWatchlistTv) { BlocProvider.of<WatchlistTvsBloc>(context)
+                                .add(AddItemTvsEvent(tv));
+                                }
+                                else { BlocProvider.of<WatchlistTvsBloc>(context)
+                                .add(RemoveItemTvsEvent(tv));
                                 }
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   isAddedWatchlistTv
-                                      ? const Icon(Icons.check)
-                                      : const Icon(Icons.add),
+                                      ? const Icon(Icons.check) : const Icon(Icons.add),
                                   const Text('Watchlist'),
                                 ],
                               ),
@@ -190,12 +185,12 @@ class DetailContent extends StatelessWidget {
                                   return const Center(
                                     child: CircularProgressIndicator(),
                                   );
-                                } else if (state is RecommendTvsError) {
-                                  return Text(state.message);
-                                } else if (state is RecommendTvsLoaded) {
+                                }
+                                else if (state is RecommendTvsError) { return Text(state.message);
+                                }
+                                else if (state is RecommendTvsLoaded) {
                                   final recommendations = state.tv;
-                                  if (recommendations.isEmpty) {
-                                    return const Text("No tv recommendations");
+                                  if (recommendations.isEmpty) { return const Text("Tv Recommendations is not available");
                                   }
                                   return SizedBox(
                                     height: 150,
@@ -207,9 +202,7 @@ class DetailContent extends StatelessWidget {
                                           padding: const EdgeInsets.all(4.0),
                                           child: InkWell(
                                             onTap: () {
-                                              Navigator.pushReplacementNamed(
-                                                context,
-                                                TelevisionDetailPage.routeName,
+                                              Navigator.pushReplacementNamed( context, TelevisionDetailPage.routeName,
                                                 arguments: tv.id,
                                               );
                                             },
@@ -283,7 +276,7 @@ class DetailContent extends StatelessWidget {
   String _showGenres(List<Genre> genres) {
     String result = '';
     for (var genre in genres) {
-      result += genre.name + ', ';
+      result += '${genre.name}, ';
     }
 
     if (result.isEmpty) {

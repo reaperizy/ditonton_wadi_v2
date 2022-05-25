@@ -19,16 +19,17 @@ void main() {
 
   group('GetPopularMovies Tests', () {
     group('execute', () {
-      test(
-          'should get list of movies from the repository when execute function is called',
-          () async {
+      test('should get list of movies from the repository when execute function is called',() async {
         // arrange
-        when(mockMovieRpository.getPopularMovies())
-            .thenAnswer((_) async => Right(tMovies));
+        when(mockMovieRpository.getPopularMovies()).thenAnswer((_) async => Right(tMovies));
+
         // act
         final result = await usecase.execute();
+
         // assert
-        expect(result, Right(tMovies));
+        expect(
+          result,
+          Right(tMovies));
       });
     });
   });

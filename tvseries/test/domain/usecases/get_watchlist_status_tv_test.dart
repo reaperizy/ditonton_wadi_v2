@@ -14,12 +14,16 @@ void main() {
   });
 
   test('should get watchlist tv status from repository', () async {
+
     // arrange
-    when(mockTvRepository.isAddedToWatchlistTv(1))
-        .thenAnswer((_) async => true);
+    when(mockTvRepository.isAddedToWatchlistTv(1)).thenAnswer((_) async => true);
+
     // act
     final result = await usecase.execute(1);
+
     // assert
-    expect(result, true);
+    expect(
+      result,
+      true);
   });
 }

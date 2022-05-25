@@ -11,10 +11,10 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:movie/domain/entities/movie.dart' as _i12;
 import 'package:movie/domain/entities/movie_detail.dart' as _i13;
 import 'package:movie/domain/repositories/movie_repository.dart' as _i8;
-import 'package:movie/domain/usecases/get_watchlist_movies.dart' as _i2;
-import 'package:movie/domain/usecases/get_watchlist_status.dart' as _i3;
-import 'package:movie/domain/usecases/remove_watchlist.dart' as _i5;
-import 'package:movie/domain/usecases/save_watchlist.dart' as _i4;
+import 'package:movie/domain/usecases/get_watchlist_movies.dart' as _i4;
+import 'package:movie/domain/usecases/get_watchlist_status.dart' as _i5;
+import 'package:movie/domain/usecases/remove_watchlist.dart' as _i3;
+import 'package:movie/domain/usecases/save_watchlist.dart' as _i2;
 import 'package:movie/presentation/bloc/watchlist_movie/watchlist_movie_bloc.dart'
     as _i6;
 
@@ -28,15 +28,15 @@ import 'package:movie/presentation/bloc/watchlist_movie/watchlist_movie_bloc.dar
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeGetWatchlistMovies_0 extends _i1.Fake
-    implements _i2.GetWatchlistMovies {}
+class _FakeSaveWatchlist_0 extends _i1.Fake implements _i2.SaveWatchlist {}
 
-class _FakeGetWatchListStatus_1 extends _i1.Fake
-    implements _i3.GetWatchListStatus {}
+class _FakeRemoveWatchlist_1 extends _i1.Fake implements _i3.RemoveWatchlist {}
 
-class _FakeSaveWatchlist_2 extends _i1.Fake implements _i4.SaveWatchlist {}
+class _FakeGetWatchlistMovies_2 extends _i1.Fake
+    implements _i4.GetWatchlistMovies {}
 
-class _FakeRemoveWatchlist_3 extends _i1.Fake implements _i5.RemoveWatchlist {}
+class _FakeGetWatchListStatus_3 extends _i1.Fake
+    implements _i5.GetWatchListStatus {}
 
 class _FakeWatchlistMoviesState_4 extends _i1.Fake
     implements _i6.WatchlistMoviesState {}
@@ -55,21 +55,21 @@ class MockWatchlistMoviesBloc extends _i1.Mock
   }
 
   @override
-  _i2.GetWatchlistMovies get getWatchlistMovies =>
-      (super.noSuchMethod(Invocation.getter(#getWatchlistMovies),
-          returnValue: _FakeGetWatchlistMovies_0()) as _i2.GetWatchlistMovies);
-  @override
-  _i3.GetWatchListStatus get getWatchListStatus =>
-      (super.noSuchMethod(Invocation.getter(#getWatchListStatus),
-          returnValue: _FakeGetWatchListStatus_1()) as _i3.GetWatchListStatus);
-  @override
-  _i4.SaveWatchlist get saveWatchlist =>
+  _i2.SaveWatchlist get saveWatchlist =>
       (super.noSuchMethod(Invocation.getter(#saveWatchlist),
-          returnValue: _FakeSaveWatchlist_2()) as _i4.SaveWatchlist);
+          returnValue: _FakeSaveWatchlist_0()) as _i2.SaveWatchlist);
   @override
-  _i5.RemoveWatchlist get removeWatchlist =>
+  _i3.RemoveWatchlist get removeWatchlist =>
       (super.noSuchMethod(Invocation.getter(#removeWatchlist),
-          returnValue: _FakeRemoveWatchlist_3()) as _i5.RemoveWatchlist);
+          returnValue: _FakeRemoveWatchlist_1()) as _i3.RemoveWatchlist);
+  @override
+  _i4.GetWatchlistMovies get getWatchlistMovies =>
+      (super.noSuchMethod(Invocation.getter(#getWatchlistMovies),
+          returnValue: _FakeGetWatchlistMovies_2()) as _i4.GetWatchlistMovies);
+  @override
+  _i5.GetWatchListStatus get getWatchlistStatus =>
+      (super.noSuchMethod(Invocation.getter(#getWatchlistStatus),
+          returnValue: _FakeGetWatchListStatus_3()) as _i5.GetWatchListStatus);
   @override
   _i6.WatchlistMoviesState get state => (super.noSuchMethod(
       Invocation.getter(#state),
@@ -130,7 +130,7 @@ class MockWatchlistMoviesBloc extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetWatchlistMovies extends _i1.Mock
-    implements _i2.GetWatchlistMovies {
+    implements _i4.GetWatchlistMovies {
   MockGetWatchlistMovies() {
     _i1.throwOnMissingStub(this);
   }
@@ -147,7 +147,7 @@ class MockGetWatchlistMovies extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetWatchListStatus extends _i1.Mock
-    implements _i3.GetWatchListStatus {
+    implements _i5.GetWatchListStatus {
   MockGetWatchListStatus() {
     _i1.throwOnMissingStub(this);
   }
@@ -165,7 +165,7 @@ class MockGetWatchListStatus extends _i1.Mock
 /// A class which mocks [RemoveWatchlist].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRemoveWatchlist extends _i1.Mock implements _i5.RemoveWatchlist {
+class MockRemoveWatchlist extends _i1.Mock implements _i3.RemoveWatchlist {
   MockRemoveWatchlist() {
     _i1.throwOnMissingStub(this);
   }
@@ -186,7 +186,7 @@ class MockRemoveWatchlist extends _i1.Mock implements _i5.RemoveWatchlist {
 /// A class which mocks [SaveWatchlist].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSaveWatchlist extends _i1.Mock implements _i4.SaveWatchlist {
+class MockSaveWatchlist extends _i1.Mock implements _i2.SaveWatchlist {
   MockSaveWatchlist() {
     _i1.throwOnMissingStub(this);
   }

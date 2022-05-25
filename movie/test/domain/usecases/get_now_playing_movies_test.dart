@@ -18,12 +18,16 @@ void main() {
   final tMovies = <Movie>[];
 
   test('should get list of movies from the repository', () async {
+
     // arrange
-    when(mockMovieRepository.getNowPlayingMovies())
-        .thenAnswer((_) async => Right(tMovies));
+    when(mockMovieRepository.getNowPlayingMovies()).thenAnswer((_) async => Right(tMovies));
+
     // act
     final result = await usecase.execute();
+
     // assert
-    expect(result, Right(tMovies));
+    expect(
+      result,
+      Right(tMovies));
   });
 }

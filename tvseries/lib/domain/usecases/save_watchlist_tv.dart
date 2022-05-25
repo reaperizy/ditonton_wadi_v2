@@ -5,11 +5,11 @@ import '../entities/tv_detail.dart';
 import '../repositories/tv_repository.dart';
 
 class SaveWatchlistTv {
-  final TvRepository repository;
+    final TvRepository repository;
+    SaveWatchlistTv(this.repository);
 
-  SaveWatchlistTv(this.repository);
+    Future<Either<Failure, String>> execute(TvDetail tv) {
 
-  Future<Either<Failure, String>> execute(TvDetail tv) {
-    return repository.saveWatchlistTv(tv);
-  }
+      return repository.saveWatchlistTv(tv);
+    }
 }

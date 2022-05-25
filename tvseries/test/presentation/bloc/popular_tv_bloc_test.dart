@@ -4,54 +4,52 @@ import 'package:core/utils/failure.dart';
 import 'package:tvseries/domain/usecases/get_popular_tv.dart';
 import 'package:tvseries/presentation/bloc/popular_tv/popular_tv_bloc.dart';
 import 'package:mockito/annotations.dart';
-import 'package:tvseries/domain/entities/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../dummy_data/dummy_objects_tv.dart';
 import 'popular_tv_bloc_test.mocks.dart';
 
-@GenerateMocks([GetPopularTv, PopularsTvsBloc])
-void main() {
-  late MockGetPopularTv mockGetPopularTv;
-  late PopularsTvsBloc tvPopularBloc;
+@GenerateMocks([GetPopularTv])
 
-  setUp(() {
-    mockGetPopularTv = MockGetPopularTv();
-    tvPopularBloc = PopularsTvsBloc(mockGetPopularTv);
+void main(){
+  late PopularsTvsBloc  tvPopularBloc;
+  late MockGetPopularTv  mockGetPopularTv;
+
+  setUp((){
+    mockGetPopularTv  = MockGetPopularTv();
+    tvPopularBloc  = PopularsTvsBloc(mockGetPopularTv);
   });
 
-  final tvList = <Tv>[];
-
-  test("initial state should be empty", () {
+  test('the initial state should be PopularsTvsEmpty', (){
     expect(tvPopularBloc.state, PopularsTvsEmpty());
   });
 
-  group('Popular Tv BLoC Test', () {
-    blocTest<PopularsTvsBloc, PopularsTvsState>(
-      'Should emit [Loading, Loaded] when data is gotten successfully',
-      build: () {
-        when(mockGetPopularTv.execute()).thenAnswer((_) async => Right(tvList));
-        return tvPopularBloc;
-      },
-      act: (bloc) => bloc.add(PopularsTvsGetEvent()),
-      expect: () => [PopularsTvsLoading(), PopularsTvsLoaded(tvList)],
-      verify: (bloc) {
-        verify(mockGetPopularTv.execute());
-      },
-    );
+  blocTest<PopularsTvsBloc, PopularsTvsState>('should emit [Loading, Loaded] when PopularsTvsGetEvent is added',
+    build: () {
+      when(mockGetPopularTv.execute()).thenAnswer((_) async => Right(testTvList));
+      return tvPopularBloc;
+    },
+    act: (bloc) => bloc.add(PopularsTvsGetEvent()),
+    expect: () => [PopularsTvsLoading(), PopularsTvsLoaded(testTvList)],
+    verify: (bloc) {
+      verify(mockGetPopularTv.execute());
 
-    blocTest<PopularsTvsBloc, PopularsTvsState>(
-      'Should emit [Loading, Error] when get popular is unsuccessful',
-      build: () {
-        when(mockGetPopularTv.execute())
-            .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));
-        return tvPopularBloc;
-      },
-      act: (bloc) => bloc.add(PopularsTvsGetEvent()),
-      expect: () => [PopularsTvsLoading(),  const PopularsTvsError('Server Failure')],
-      verify: (bloc) {
-        verify(mockGetPopularTv.execute());
-      },
-    );
-  },);
+      return tvPopularBloc.state.props;
+    },
+  );
+
+  blocTest<PopularsTvsBloc, PopularsTvsState>('Should emit [Loading, Error] when PopularsTvsGetEvent is added',
+    build: () {
+      when(mockGetPopularTv.execute()).thenAnswer((_) async => const Left(ServerFailure('The Server is Failure')));
+      return tvPopularBloc;
+    },
+    act: (bloc) => bloc.add(PopularsTvsGetEvent()),
+    expect: () => [PopularsTvsLoading(), PopularsTvsError('The Server is Failure')],
+    verify: (bloc) {
+      verify(mockGetPopularTv.execute());
+
+      return tvPopularBloc.state.props;
+    },
+  );
 }

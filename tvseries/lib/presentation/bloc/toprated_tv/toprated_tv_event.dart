@@ -1,10 +1,12 @@
 part of 'toprated_tv_bloc.dart';
 
-abstract class TopRatedsTvsEvent extends Equatable {
-  const TopRatedsTvsEvent();
+@immutable
+class TopRatedsTvsGetEvent extends TopRatedsTvsEvent {
 
   @override
   List<Object> get props => [];
 }
 
-class TopRatedsTvsGetEvent extends TopRatedsTvsEvent {}
+abstract class TopRatedsTvsEvent extends Equatable {
+    const TopRatedsTvsEvent();
+}

@@ -1,66 +1,57 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:core/utils/failure.dart';
-import 'package:tvseries/domain/entities/tv.dart';
 import 'package:tvseries/domain/usecases/get_tv_recommendations.dart';
 import 'package:tvseries/presentation/bloc/recommend_tv/reccomend_tv_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../dummy_data/dummy_objects_tv.dart';
 import 'recommend_tv_bloc_test.mocks.dart';
 
-@GenerateMocks([RecommendTvsBloc,GetTvRecommendations])
-void main() {
-  late MockGetTvRecommendations mockGetTvRecommendation;
-  late RecommendTvsBloc tvRecommendationBloc;
+@GenerateMocks([GetTvRecommendations])
 
-  setUp(() {
-    mockGetTvRecommendation = MockGetTvRecommendations();
-    tvRecommendationBloc = RecommendTvsBloc(
-      getTvRecommendations: mockGetTvRecommendation,
-    );
+const id = 1;
+
+void main(){
+  late RecommendTvsBloc   tvRecommendationBloc;
+  late MockGetTvRecommendations  mockGetTvRecommendation;
+
+  setUp((){
+    mockGetTvRecommendation  = MockGetTvRecommendations();
+    tvRecommendationBloc   = RecommendTvsBloc(mockGetTvRecommendation);
   });
 
-  test("initial state should be empty", () {
+  test('the initial state should be RecommendTvsEmpty', (){
     expect(tvRecommendationBloc.state, RecommendTvsEmpty());
   });
 
-  const tvId = 1;
-  final tvList = <Tv>[];
-
-  blocTest<RecommendTvsBloc, RecommendTvsState>(
-    'Should emit [Loading, Loaded] when data is gotten successfully',
+  blocTest<RecommendTvsBloc, RecommendTvsState>('should emit [Loading, Loaded] when GetRecommendTvsEvent is added',
     build: () {
-      when(mockGetTvRecommendation.execute(tvId))
-          .thenAnswer((_) async => Right(tvList));
+      when(mockGetTvRecommendation.execute(id)).thenAnswer((_) async => Right(testTvList));
       return tvRecommendationBloc;
     },
-    act: (bloc) => bloc.add(const GetRecommendTvsEvent(tvId)),
-    expect: () =>
-    [RecommendTvsLoading(), RecommendTvsLoaded(tvList)],
+    act: (bloc) => bloc.add(GetRecommendTvsEvent(id)),
+    expect: () => [RecommendTvsLoading(), RecommendTvsLoaded(testTvList)],
     verify: (bloc) {
-      verify(mockGetTvRecommendation.execute(tvId));
+      verify(mockGetTvRecommendation.execute(id));
+
+      return tvRecommendationBloc.state.props;
     },
   );
 
-  group('Recommendation Tv BLoC Test', () {
-    blocTest<RecommendTvsBloc, RecommendTvsState>(
-      'Should emit [Loading, Error] when get recommendation is unsuccessful',
-      build: () {
-        when(mockGetTvRecommendation.execute(tvId))
-            .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));
-        return tvRecommendationBloc;
-      },
-      act: (bloc) => bloc.add(const GetRecommendTvsEvent(tvId)),
-      expect: () => [
-        RecommendTvsLoading(),
-        const RecommendTvsError('Server Failure')
-      ],
-      verify: (bloc) {
-        verify(mockGetTvRecommendation.execute(tvId));
-      },
-    );
-  },
+  blocTest<RecommendTvsBloc, RecommendTvsState>('Should emit [Loading, Error] when GetRecommendTvsEvent is added',
+    build: () {
+      when(mockGetTvRecommendation.execute(id)).thenAnswer((_) async => const Left(ServerFailure('The Server is Failure')));
+      return tvRecommendationBloc;
+    },
+    act: (bloc) => bloc.add(GetRecommendTvsEvent(id)),
+    expect: () => [RecommendTvsLoading(), RecommendTvsError('The Server is Failure')],
+    verify: (bloc) {
+      verify(mockGetTvRecommendation.execute(id));
+
+      return tvRecommendationBloc.state.props;
+    },
   );
 }

@@ -9,35 +9,39 @@ class MovieTable extends Equatable {
   final String? posterPath;
   final String? overview;
 
-  const MovieTable({
-    required this.id,
-    required this.title,
-    required this.posterPath,
-    required this.overview,
-  });
+    const MovieTable({
+      required this.id,
+      required this.title,
+      required this.posterPath,
+      required this.overview,
+    });
 
-  factory MovieTable.fromEntity(MovieDetail movie) => MovieTable(
+  factory MovieTable.fromEntity(MovieDetail movie) =>
+    MovieTable(
         id: movie.id,
         title: movie.title,
         posterPath: movie.posterPath,
         overview: movie.overview,
       );
 
-  factory MovieTable.fromMap(Map<String, dynamic> map) => MovieTable(
+  factory MovieTable.fromMap(Map<String, dynamic> map) =>
+    MovieTable(
         id: map['id'],
         title: map['title'],
         posterPath: map['posterPath'],
         overview: map['overview'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic>
+    toJson() => {
         'id': id,
         'title': title,
         'posterPath': posterPath,
         'overview': overview,
       };
 
-  Movie toEntity() => Movie.watchlist(
+  Movie toEntity() => Movie
+    .watchlist(
         id: id,
         overview: overview,
         posterPath: posterPath,
@@ -45,5 +49,9 @@ class MovieTable extends Equatable {
       );
 
   @override
-  List<Object?> get props => [id, title, posterPath, overview];
+  List<Object?> get props => [
+    id,
+    title,
+    posterPath,
+    overview];
 }

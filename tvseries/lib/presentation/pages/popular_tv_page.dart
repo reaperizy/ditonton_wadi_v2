@@ -9,49 +9,47 @@ class PopularTelevisionPage extends StatefulWidget {
   const PopularTelevisionPage({Key? key}) : super(key: key);
 
   @override
-  _PopularTelevisionPageState createState() => _PopularTelevisionPageState();
+  PopularTelevisionPageState createState() => PopularTelevisionPageState();
 }
 
-class _PopularTelevisionPageState extends State<PopularTelevisionPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      context.read<PopularsTvsBloc>().add(PopularsTvsGetEvent());
-    });
-  }
+  class PopularTelevisionPageState extends State<PopularTelevisionPage> {
+    @override
+    void initState() { super.initState();
+      Future.microtask(() {
+        context.read<PopularsTvsBloc>().add(PopularsTvsGetEvent());
+      });
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Popular Tv'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<PopularsTvsBloc, PopularsTvsState>(
-          builder: (context, state) {
-            if (state is PopularsTvsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is PopularsTvsLoaded) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final tvs = state.result[index];
-                  return TvCard(tvs);
-                },
-                itemCount: state.result.length,
-              );
-            } else {
-              return const Center(
-                key: Key('error_message'),
-                child: Text("Error"),
-              );
-            }
-          },
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar( title: const Text('Popular Tv'),
         ),
-      ),
-    );
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BlocBuilder<PopularsTvsBloc, PopularsTvsState>(
+            builder: (context, state) {
+              if (state is PopularsTvsLoading) { return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              else if (state is PopularsTvsLoaded) { return ListView.builder(
+                  itemBuilder: (context, index) {
+                    final tvs = state.result[index];
+
+                    return TvCard(tvs);
+                  },
+                  itemCount: state.result.length,
+                );
+              }
+              else { return const Center(
+                  key: Key('error_message'),
+                  child: Text('Something went wrong'),
+                );
+              }
+            },
+          ),
+        ),
+      );
+    }
   }
-}

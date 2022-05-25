@@ -2,17 +2,14 @@
 // in movie/test/presentation/bloc/detail_movie_bloc_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i6;
+import 'dart:async' as _i5;
 
-import 'package:bloc/bloc.dart' as _i7;
-import 'package:core/utils/failure.dart' as _i8;
-import 'package:dartz/dartz.dart' as _i5;
+import 'package:core/utils/failure.dart' as _i6;
+import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:movie/domain/entities/movie_detail.dart' as _i9;
-import 'package:movie/domain/repositories/movie_repository.dart' as _i4;
-import 'package:movie/domain/usecases/get_movie_detail.dart' as _i2;
-import 'package:movie/presentation/bloc/detailmovie/detail_movie_bloc.dart'
-    as _i3;
+import 'package:movie/domain/entities/movie_detail.dart' as _i7;
+import 'package:movie/domain/repositories/movie_repository.dart' as _i2;
+import 'package:movie/domain/usecases/get_movie_detail.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -24,99 +21,26 @@ import 'package:movie/presentation/bloc/detailmovie/detail_movie_bloc.dart'
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeGetMovieDetail_0 extends _i1.Fake implements _i2.GetMovieDetail {}
+class _FakeMovieRepository_0 extends _i1.Fake implements _i2.MovieRepository {}
 
-class _FakeDetailsMoviesState_1 extends _i1.Fake
-    implements _i3.DetailsMoviesState {}
-
-class _FakeMovieRepository_2 extends _i1.Fake implements _i4.MovieRepository {}
-
-class _FakeEither_3<L, R> extends _i1.Fake implements _i5.Either<L, R> {}
-
-/// A class which mocks [DetailsMoviesBloc].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockDetailsMoviesBloc extends _i1.Mock implements _i3.DetailsMoviesBloc {
-  MockDetailsMoviesBloc() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.GetMovieDetail get getMovieDetail =>
-      (super.noSuchMethod(Invocation.getter(#getMovieDetail),
-          returnValue: _FakeGetMovieDetail_0()) as _i2.GetMovieDetail);
-  @override
-  _i3.DetailsMoviesState get state =>
-      (super.noSuchMethod(Invocation.getter(#state),
-          returnValue: _FakeDetailsMoviesState_1()) as _i3.DetailsMoviesState);
-  @override
-  _i6.Stream<_i3.DetailsMoviesState> get stream =>
-      (super.noSuchMethod(Invocation.getter(#stream),
-              returnValue: Stream<_i3.DetailsMoviesState>.empty())
-          as _i6.Stream<_i3.DetailsMoviesState>);
-  @override
-  bool get isClosed =>
-      (super.noSuchMethod(Invocation.getter(#isClosed), returnValue: false)
-          as bool);
-  @override
-  void add(_i3.DetailsMoviesEvent? event) =>
-      super.noSuchMethod(Invocation.method(#add, [event]),
-          returnValueForMissingStub: null);
-  @override
-  void onEvent(_i3.DetailsMoviesEvent? event) =>
-      super.noSuchMethod(Invocation.method(#onEvent, [event]),
-          returnValueForMissingStub: null);
-  @override
-  void emit(_i3.DetailsMoviesState? state) =>
-      super.noSuchMethod(Invocation.method(#emit, [state]),
-          returnValueForMissingStub: null);
-  @override
-  void on<E extends _i3.DetailsMoviesEvent>(
-          _i7.EventHandler<E, _i3.DetailsMoviesState>? handler,
-          {_i7.EventTransformer<E>? transformer}) =>
-      super.noSuchMethod(
-          Invocation.method(#on, [handler], {#transformer: transformer}),
-          returnValueForMissingStub: null);
-  @override
-  void onTransition(
-          _i7.Transition<_i3.DetailsMoviesEvent, _i3.DetailsMoviesState>?
-              transition) =>
-      super.noSuchMethod(Invocation.method(#onTransition, [transition]),
-          returnValueForMissingStub: null);
-  @override
-  _i6.Future<void> close() => (super.noSuchMethod(Invocation.method(#close, []),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
-  @override
-  void onChange(_i7.Change<_i3.DetailsMoviesState>? change) =>
-      super.noSuchMethod(Invocation.method(#onChange, [change]),
-          returnValueForMissingStub: null);
-  @override
-  void addError(Object? error, [StackTrace? stackTrace]) =>
-      super.noSuchMethod(Invocation.method(#addError, [error, stackTrace]),
-          returnValueForMissingStub: null);
-  @override
-  void onError(Object? error, StackTrace? stackTrace) =>
-      super.noSuchMethod(Invocation.method(#onError, [error, stackTrace]),
-          returnValueForMissingStub: null);
-}
+class _FakeEither_1<L, R> extends _i1.Fake implements _i3.Either<L, R> {}
 
 /// A class which mocks [GetMovieDetail].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetMovieDetail extends _i1.Mock implements _i2.GetMovieDetail {
+class MockGetMovieDetail extends _i1.Mock implements _i4.GetMovieDetail {
   MockGetMovieDetail() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.MovieRepository get repository =>
+  _i2.MovieRepository get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-          returnValue: _FakeMovieRepository_2()) as _i4.MovieRepository);
+          returnValue: _FakeMovieRepository_0()) as _i2.MovieRepository);
   @override
-  _i6.Future<_i5.Either<_i8.Failure, _i9.MovieDetail>> execute(int? id) =>
+  _i5.Future<_i3.Either<_i6.Failure, _i7.MovieDetail>> execute(int? id) =>
       (super.noSuchMethod(Invocation.method(#execute, [id]),
-          returnValue: Future<_i5.Either<_i8.Failure, _i9.MovieDetail>>.value(
-              _FakeEither_3<_i8.Failure, _i9.MovieDetail>())) as _i6
-          .Future<_i5.Either<_i8.Failure, _i9.MovieDetail>>);
+          returnValue: Future<_i3.Either<_i6.Failure, _i7.MovieDetail>>.value(
+              _FakeEither_1<_i6.Failure, _i7.MovieDetail>())) as _i5
+          .Future<_i3.Either<_i6.Failure, _i7.MovieDetail>>);
 }

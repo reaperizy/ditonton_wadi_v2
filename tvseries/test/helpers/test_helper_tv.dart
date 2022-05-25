@@ -5,12 +5,10 @@ import 'package:tvseries/domain/repositories/tv_repository.dart';
 import 'package:mockito/annotations.dart';
 import 'package:http/http.dart' as http;
 
-@GenerateMocks([
-  TvRepository,
-  TelevisionRemoteDataSource,
-  TelevisionLocalDataSource,
-  DatabaseHelperTelevision,
-], customMocks: [
-  MockSpec<http.Client>(as: #MockHttpClient)
-])
-void main() {}
+@GenerateMocks([TvRepository, TelevisionRemoteDataSource,
+  TelevisionLocalDataSource, DatabaseHelperTelevision,
+  ],
+
+  customMocks: [MockSpec<http.Client>(as: #MockHttpClient)])
+
+  void main() {}

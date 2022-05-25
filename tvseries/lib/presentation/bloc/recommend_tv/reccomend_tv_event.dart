@@ -1,17 +1,11 @@
 part of 'reccomend_tv_bloc.dart';
 
-abstract class RecommendTvsEvent extends Equatable {
-  const RecommendTvsEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-class GetRecommendTvsEvent extends RecommendTvsEvent {
+class GetRecommendTvsEvent  extends RecommendTvsEvent {
   final int id;
-
-  const GetRecommendTvsEvent(this.id);
+  GetRecommendTvsEvent (this.id);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [id];
 }
+abstract class RecommendTvsEvent  extends Equatable{}
+

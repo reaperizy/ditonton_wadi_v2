@@ -4,56 +4,50 @@ import 'package:core/utils/failure.dart';
 import 'package:tvseries/domain/usecases/get_top_rated_tv.dart';
 import 'package:tvseries/presentation/bloc/toprated_tv/toprated_tv_bloc.dart';
 import 'package:mockito/annotations.dart';
-import 'package:tvseries/domain/entities/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../dummy_data/dummy_objects_tv.dart';
 import 'toprated_tv_bloc_test.mocks.dart';
 
-@GenerateMocks([GetTopRatedTv, TopRatedsTvsBloc])
-void main() {
-  late MockGetTopRatedTv mockGetTopRatedTv;
-  late TopRatedsTvsBloc tvTopRatedBloc;
+@GenerateMocks([GetTopRatedTv])
 
-  setUp(() {
-    mockGetTopRatedTv = MockGetTopRatedTv();
-    tvTopRatedBloc = TopRatedsTvsBloc(mockGetTopRatedTv);
+void main(){
+  late TopRatedsTvsBloc  tvTopRatedBloc;
+  late MockGetTopRatedTv  mockGetTopRatedTv;
+
+  setUp((){
+    mockGetTopRatedTv  = MockGetTopRatedTv();
+    tvTopRatedBloc  = TopRatedsTvsBloc(mockGetTopRatedTv);
   });
 
-  final tvList = <Tv>[];
-
-  test("initial state should be empty", () {
+  test('the initial state should be TopRatedsTvsEmpty', (){
     expect(tvTopRatedBloc.state, TopRatedsTvsEmpty());
   });
 
-  group('Top Rated Movies BLoC Test', () {
-    blocTest<TopRatedsTvsBloc, TopRatedsTvsState>(
-      'Should emit [Loading, Loaded] when data is gotten successfully',
-      build: () {
-        when(mockGetTopRatedTv.execute())
-            .thenAnswer((_) async => Right(tvList));
-        return tvTopRatedBloc;
-      },
-      act: (bloc) => bloc.add(TopRatedsTvsGetEvent()),
-      expect: () => [TopRatedsTvsLoading(), TopRatedsTvsLoaded(tvList)],
-      verify: (bloc) {
-        verify(mockGetTopRatedTv.execute());
-      },
-    );
+  blocTest<TopRatedsTvsBloc, TopRatedsTvsState>('should emit [Loading, Loaded] when TopRatedsTvsGetEvent is added',
+    build: () {
+      when(mockGetTopRatedTv.execute()).thenAnswer((_) async => Right(testTvList));
+      return tvTopRatedBloc;
+    },
+    act: (bloc) => bloc.add(TopRatedsTvsGetEvent()),
+    expect: () => [TopRatedsTvsLoading(), TopRatedsTvsLoaded(testTvList)],
+    verify: (bloc) {
+      verify(mockGetTopRatedTv.execute());
 
-    blocTest<TopRatedsTvsBloc, TopRatedsTvsState>(
-      'Should emit [Loading, Error] when get top rated is unsuccessful',
-      build: () {
-        when(mockGetTopRatedTv.execute())
-            .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));
-        return tvTopRatedBloc;
-      },
-      act: (bloc) => bloc.add(TopRatedsTvsGetEvent()),
-      expect: () =>
-      [TopRatedsTvsLoading(), const TopRatedsTvsError('Server Failure')],
-      verify: (bloc) {
-        verify(mockGetTopRatedTv.execute());
-      },
-    );
-  },);
+      return tvTopRatedBloc.state.props;
+    },
+  );
+
+  blocTest<TopRatedsTvsBloc, TopRatedsTvsState>('Should emit [Loading, Error] when TopRatedsTvsGetEvent is added',
+    build: () {
+      when(mockGetTopRatedTv.execute()).thenAnswer((_) async => const Left(ServerFailure('The Server is Failure')));
+      return tvTopRatedBloc;
+    },
+    act: (bloc) => bloc.add(TopRatedsTvsGetEvent()),
+    expect: () => [TopRatedsTvsLoading(), TopRatedsTvsError('The Server is Failure')],
+    verify: (bloc) {
+      verify(mockGetTopRatedTv.execute());
+    },
+  );
 }

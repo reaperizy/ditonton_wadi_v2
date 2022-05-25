@@ -6,5 +6,5 @@ abstract class PopularsTvsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-
+@immutable
 class PopularsTvsGetEvent extends PopularsTvsEvent {}

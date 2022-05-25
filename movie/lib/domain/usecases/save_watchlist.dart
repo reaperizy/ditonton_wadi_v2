@@ -5,11 +5,10 @@ import '../repositories/movie_repository.dart';
 import 'package:core/utils/failure.dart';
 
 class SaveWatchlist {
-  final MovieRepository repository;
+    final MovieRepository repository;
+    SaveWatchlist(this.repository);
 
-  SaveWatchlist(this.repository);
-
-  Future<Either<Failure, String>> execute(MovieDetail movie) {
-    return repository.saveWatchlist(movie);
-  }
+    Future<Either<Failure, String>> execute(MovieDetail movie) {
+      return repository.saveWatchlist(movie);
+    }
 }

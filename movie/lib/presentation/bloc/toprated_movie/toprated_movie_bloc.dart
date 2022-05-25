@@ -28,7 +28,9 @@ class TopRatedsMoviesBloc
             emit(TopRatedsMoviesError(failure.message));
           },
           (data) {
-            data.isEmpty ? emit(TopRatedsMoviesEmpty()) : emit(TopRatedsMoviesLoaded(data));
+            data.isEmpty
+            ? emit(TopRatedsMoviesEmpty())
+            : emit(TopRatedsMoviesLoaded(data));
           },
         );
       }

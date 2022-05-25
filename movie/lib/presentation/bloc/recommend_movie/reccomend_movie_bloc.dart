@@ -28,7 +28,9 @@ class RecommendMoviesBloc
             emit(RecommendMoviesError(failure.message));
           },
           (data) {
-            data.isEmpty ? emit(RecommendMoviesEmpty()) : emit(RecommendMoviesLoaded(data));
+            data.isEmpty
+            ? emit(RecommendMoviesEmpty())
+            : emit(RecommendMoviesLoaded(data));
           },
         );
       }

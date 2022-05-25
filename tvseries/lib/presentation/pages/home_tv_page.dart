@@ -21,89 +21,84 @@ class HomeTelevisionPage extends StatefulWidget {
   const HomeTelevisionPage({Key? key}) : super(key: key);
 
   @override
-  _HomeTelevisionPageState createState() => _HomeTelevisionPageState();
+  HomeTelevisionPageState createState() => HomeTelevisionPageState();
   static const routeName = '/tv';
 }
 
-class _HomeTelevisionPageState extends State<HomeTelevisionPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      context.read<OnAirsTvsBloc>().add(OnAirsTvsGetEvent());
-      context.read<PopularsTvsBloc>().add(PopularsTvsGetEvent());
-      context.read<TopRatedsTvsBloc>().add(TopRatedsTvsGetEvent());
-    });
-  }
+  class HomeTelevisionPageState extends State<HomeTelevisionPage> {
+    @override
+    void initState() { super.initState();
+        Future.microtask(() {
+          context.read<OnAirsTvsBloc>().add(OnAirsTvsGetEvent());
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: [
-            const UserAccountsDrawerHeader(
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage('assets/circle-g.png'),
+          context.read<PopularsTvsBloc>().add(PopularsTvsGetEvent());
+
+          context.read<TopRatedsTvsBloc>().add(TopRatedsTvsGetEvent());
+        });
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold( drawer: Drawer(
+          child: Column(
+            children: [
+              const UserAccountsDrawerHeader(
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: AssetImage('assets/circle-g.png'),
+                ),
+                accountName: Text('Ditonton'),
+                accountEmail: Text('ditonton@dicoding.com'),
               ),
-              accountName: Text('Ditonton'),
-              accountEmail: Text('ditonton@dicoding.com'),
-            ),
-            ListTile(
-              leading: const Icon(Icons.movie),
-              title: const Text('Movies'),
-              onTap: () {
-                Navigator.pushNamed(context, HomeMoviePage.routeName);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.tv),
-              title: const Text('Television'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ExpansionTile(
-              title: const Text('Watchlist'),
-              leading: const Icon(Icons.save_alt),
-              children: <Widget>[
-                ListTile(
-                  leading: const Icon(Icons.movie),
-                  title: const Text('Movie'),
-                  onTap: () {
-                    Navigator.pushNamed(context, WatchlistMoviesPage.routeName);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.tv),
-                  title: const Text('Television'),
-                  onTap: () {
-                    Navigator.pushNamed(
-                        context, WatchlistTelevisionPage.routeName);
-                  },
-                ),
-              ],
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.pushNamed(context, AboutPage.routeName);
-              },
-              leading: const Icon(Icons.info_outline),
-              title: const Text('About'),
-            ),
-          ],
+              ListTile( leading: const Icon(Icons.movie),
+                title: const Text('Movies'),
+                onTap: () {
+                  Navigator.pushNamed(context, HomeMoviePage.routeName);
+                },
+              ),
+              ListTile( leading: const Icon(Icons.tv),
+                title: const Text('Television'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ExpansionTile( title: const Text('Watchlist'),
+                leading: const Icon(Icons.save_alt),
+                children: <Widget>[
+                  ListTile( leading: const Icon(Icons.movie),
+                    title: const Text('Movie'),
+                    onTap: () {
+                      Navigator.pushNamed(context, WatchlistMoviesPage.routeName);
+                    },
+                  ),
+                  ListTile( leading: const Icon(Icons.tv),
+                    title: const Text('Television'),
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, WatchlistTelevisionPage.routeName);
+                    },
+                  ),
+                ],
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.pushNamed(context, AboutPage.routeName);
+                },
+                leading: const Icon(Icons.info_outline),
+                title: const Text('About'),
+              ),
+            ],
+          ),
         ),
-      ),
-      appBar: AppBar(
-        title: const Text('Ditonton'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, SearchTelevisionPage.routeName);
-            },
-            icon: const Icon(Icons.search),
-          )
-        ],
+        appBar: AppBar(
+          title: const Text('Ditonton'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, SearchTelevisionPage.routeName);
+              },
+              icon: const Icon(Icons.search),
+            )
+          ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -111,8 +106,7 @@ class _HomeTelevisionPageState extends State<HomeTelevisionPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Now Playing TV',
+              Text('Now Playing TV',
                 style: kHeading6,
               ),
               BlocBuilder<OnAirsTvsBloc, OnAirsTvsState>(
@@ -121,19 +115,18 @@ class _HomeTelevisionPageState extends State<HomeTelevisionPage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is OnAirsTvsLoaded) {
-                    return TvList(state.result);
-                  } else if (state is OnAirsTvsError) {
-                    return Text(state.message);
-                  } else {
-                    return const Text('Failed');
+                  }
+                  else if (state is OnAirsTvsLoaded) { return TvList(state.result);
+                  }
+                  else if (state is OnAirsTvsError) { return Text(state.message);
+                  }
+                  else { return const Text('Failed to load OnAir Television');
                   }
                 },
               ),
-              _buildSubHeading(
-                title: 'Popular TV',
-                onTap: () => Navigator.pushNamed(
-                    context, PopularTelevisionPage.routeName),
+              _buildSubHeading( title: 'Popular TV',
+                onTap: () =>
+                Navigator.pushNamed(context, PopularTelevisionPage.routeName),
               ),
               BlocBuilder<PopularsTvsBloc, PopularsTvsState>(
                 builder: (context, state) {
@@ -141,17 +134,16 @@ class _HomeTelevisionPageState extends State<HomeTelevisionPage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is PopularsTvsLoaded) {
-                    return TvList(state.result);
-                  } else if (state is PopularsTvsError) {
-                    return Text(state.message);
-                  } else {
-                    return const Text('Failed');
+                  }
+                  else if (state is PopularsTvsLoaded) { return TvList(state.result);
+                  }
+                  else if (state is PopularsTvsError) { return Text(state.message);
+                  }
+                  else { return const Text('Failed to load Popular Television');
                   }
                 },
               ),
-              _buildSubHeading(
-                title: 'Top Rated TV',
+              _buildSubHeading( title: 'Top Rated TV',
                 onTap: () => Navigator.pushNamed(
                     context, TopRatedTelevisionPage.routeName),
               ),
@@ -161,12 +153,12 @@ class _HomeTelevisionPageState extends State<HomeTelevisionPage> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is TopRatedsTvsLoaded) {
-                    return TvList(state.result);
-                  } else if (state is TopRatedsTvsError) {
-                    return Text(state.message);
-                  } else {
-                    return const Text('Failed');
+                  }
+                  else if (state is TopRatedsTvsLoaded) { return TvList(state.result);
+                  }
+                  else if (state is TopRatedsTvsError) { return Text(state.message);
+                  }
+                  else { return const Text('Failed to load Top Rated Television');
                   }
                 },
               ),
@@ -216,9 +208,7 @@ class TvList extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  TelevisionDetailPage.routeName,
+                Navigator.pushNamed(context, TelevisionDetailPage.routeName,
                   arguments: tvs.id,
                 );
               },

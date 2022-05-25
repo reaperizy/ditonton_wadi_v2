@@ -1,30 +1,28 @@
 part of 'onair_tv_bloc.dart';
 
-abstract class OnAirsTvsState extends Equatable {
-  const OnAirsTvsState();
+@immutable
+abstract class OnAirsTvsState  extends Equatable {}
 
+class OnAirsTvsEmpty  extends OnAirsTvsState  {
   @override
   List<Object> get props => [];
 }
-
-class OnAirsTvsEmpty extends OnAirsTvsState {}
-
-class OnAirsTvsLoading extends OnAirsTvsState {}
-
-class OnAirsTvsError extends OnAirsTvsState {
-  final String message;
-
-  const OnAirsTvsError(this.message);
-
+class OnAirsTvsLoading  extends OnAirsTvsState  {
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [];
 }
-
-class OnAirsTvsLoaded extends OnAirsTvsState {
+class OnAirsTvsLoaded  extends OnAirsTvsState  {
   final List<Tv> result;
-
-  const OnAirsTvsLoaded(this.result);
+  OnAirsTvsLoaded(this.result);
 
   @override
   List<Object> get props => [result];
+}
+class OnAirsTvsError extends OnAirsTvsState {
+
+  @override
+  List<Object> get props => [message];
+
+    final String message;
+  OnAirsTvsError(this.message);
 }

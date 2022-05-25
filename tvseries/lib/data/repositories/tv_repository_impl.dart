@@ -25,12 +25,12 @@ class TelevisionRepositoryImpl implements TvRepository {
     try {
       final result = await remoteDataSource.getNowPlayingTv();
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('Certificate unvalid'));
     }
   }
 
@@ -39,12 +39,12 @@ class TelevisionRepositoryImpl implements TvRepository {
     try {
       final result = await remoteDataSource.getTvDetail(id);
       return Right(result.toEntity());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('Certificate unvalid'));
     }
   }
 
@@ -53,12 +53,13 @@ class TelevisionRepositoryImpl implements TvRepository {
     try {
       final result = await remoteDataSource.getTvRecommendations(id);
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
+    }
+    on ServerException {
       return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('Certificate unvalid'));
     }
   }
 
@@ -67,12 +68,12 @@ class TelevisionRepositoryImpl implements TvRepository {
     try {
       final result = await remoteDataSource.getPopularTv();
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+     on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('Certificate unvalid'));
     }
   }
 
@@ -81,12 +82,12 @@ class TelevisionRepositoryImpl implements TvRepository {
     try {
       final result = await remoteDataSource.getTopRatedTv();
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException {return const Left(SslFailure('Certificate is unvalid'));
     }
   }
 
@@ -95,12 +96,12 @@ class TelevisionRepositoryImpl implements TvRepository {
     try {
       final result = await remoteDataSource.searchTv(query);
       return Right(result.map((model) => model.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    } on TlsException {
-      return const Left(SslFailure('Certificate unvalid'));
+    }
+    on ServerException { return const Left(ServerFailure(''));
+    }
+    on SocketException { return const Left(ConnectionFailure('Failed to connect to the networks'));
+    }
+    on TlsException { return const Left(SslFailure('Certificate is unvalid'));
     }
   }
 
@@ -110,8 +111,8 @@ class TelevisionRepositoryImpl implements TvRepository {
       final result =
           await localDataSource.insertWatchlistTv(TvTable.fromEntity(tv));
       return Right(result);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
+    }
+    on DatabaseException catch (e) { return Left(DatabaseFailure(e.message));
     } catch (e) {
       rethrow;
     }
@@ -123,20 +124,22 @@ class TelevisionRepositoryImpl implements TvRepository {
       final result =
           await localDataSource.removeWatchlistTv(TvTable.fromEntity(tv));
       return Right(result);
-    } on DatabaseException catch (e) {
-      return Left(DatabaseFailure(e.message));
+    }
+    on DatabaseException catch (e) { return Left(DatabaseFailure(e.message));
     }
   }
 
   @override
   Future<bool> isAddedToWatchlistTv(int id) async {
     final result = await localDataSource.getTvById(id);
+
     return result != null;
   }
 
   @override
   Future<Either<Failure, List<Tv>>> getWatchlistTv() async {
     final result = await localDataSource.getWatchlistTv();
+
     return Right(result.map((data) => data.toEntity()).toList());
   }
 }

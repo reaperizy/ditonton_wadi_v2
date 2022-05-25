@@ -19,11 +19,16 @@ void main() {
   const tQuery = 'Game of throne';
 
   test('should get list of tv from the repository', () async {
+
     // arrange
     when(mockTvRepository.searchTv(tQuery)).thenAnswer((_) async => Right(tTv));
+
     // act
     final result = await usecase.execute(tQuery);
+
     // assert
-    expect(result, Right(tTv));
+    expect(
+      result,
+      Right(tTv));
   });
 }

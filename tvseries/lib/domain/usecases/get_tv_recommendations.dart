@@ -5,11 +5,11 @@ import '../entities/tv.dart';
 import '../repositories/tv_repository.dart';
 
 class GetTvRecommendations {
-  final TvRepository repository;
+    final TvRepository repository;
+    GetTvRecommendations(this.repository);
 
-  GetTvRecommendations(this.repository);
+    Future<Either<Failure, List<Tv>>> execute(id) {
 
-  Future<Either<Failure, List<Tv>>> execute(id) {
-    return repository.getTvRecommendations(id);
-  }
+      return repository.getTvRecommendations(id);
+    }
 }
