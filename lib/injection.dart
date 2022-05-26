@@ -5,7 +5,6 @@ import 'package:tvseries/tvseries.dart';
 import 'package:search/search.dart';
 import 'package:core/core.dart';
 
-
 final locator = GetIt.instance;
 
 void init() {

@@ -14,15 +14,15 @@ const Color kDavysGrey = Color(0xFF4B5358);
 const Color kGrey = Color(0xFF303030);
 
 const kColorScheme = ColorScheme(
-    primary: kMikadoYellow,
-    secondary: kPrussianBlue,
-    surface: kRichBlack,
-    background: kRichBlack,
-    error: Colors.red,
-    onPrimary: kRichBlack,
-    onSecondary: Colors.white,
-    onSurface: Colors.white,
-    onBackground: Colors.white,
-    onError: Colors.white,
-    brightness: Brightness.dark,
+  primary: kMikadoYellow,
+  secondary: kPrussianBlue,
+  surface: kRichBlack,
+  background: kRichBlack,
+  error: Colors.red,
+  onPrimary: kRichBlack,
+  onSecondary: Colors.white,
+  onSurface: Colors.white,
+  onBackground: Colors.white,
+  onError: Colors.white,
+  brightness: Brightness.dark,
 );

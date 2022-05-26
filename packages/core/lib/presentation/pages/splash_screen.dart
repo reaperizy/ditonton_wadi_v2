@@ -13,24 +13,29 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> { startTime() {
+class _SplashScreenState extends State<SplashScreen> {
+  startTime() {
     var _duration = const Duration(seconds: 2);
     return Timer(_duration, navigationRoute);
   }
 
   @override
-  void initState() { super.initState();
+  void initState() {
+    super.initState();
     startTime();
   }
 
   void navigationRoute() {
-    Navigator.pushReplacement(context, MaterialPageRoute(
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
             builder: (BuildContext context) => const HomeMoviePage()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( backgroundColor: kRichBlack,
+    return Scaffold(
+        backgroundColor: kRichBlack,
         body: Center(child: Center(child: Image.asset('assets/ditonton.png'))));
   }
 }
