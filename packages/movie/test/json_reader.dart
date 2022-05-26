@@ -11,5 +11,5 @@ String readJson(String name) {
       return File('$dir/test/$name').readAsStringSync();
     }
 
-    return File('$dir/movie/test/$name').readAsStringSync();
+    return File('$dir/packages/movie/test/$name').readAsStringSync();
 }
